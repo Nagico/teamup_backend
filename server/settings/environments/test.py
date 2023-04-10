@@ -1,6 +1,6 @@
 from server.settings import ZQ_EXCEPTION
 
-DEBUG = True
+DEBUG = False
 DEBUG_PROPAGATE_EXCEPTIONS = True
 
 DATABASES = {

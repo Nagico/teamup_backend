@@ -1,4 +1,5 @@
 #! /usr/bin/env python3
+import os
 import sys
 
 import pytest
@@ -59,12 +60,20 @@ class PytestTestRunner:
 
 
 if __name__ == "__main__":
+    os.environ["DJANGO_ENV"] = "test"
+    os.environ["DJANGO_SECRET_KEY"] = "secret"
+    os.environ["DJANGO_SETTINGS_MODULE"] = "server.settings"
+
+    os.environ["DATABASE_URL"] = "sqlite:///:memory:"
+    os.environ["CACHE_URL"] = "locmem://"
+    os.environ["CELERY_BROKER_URL"] = "memory://"
+
     if len(sys.argv) > 1:
         pytest_args = sys.argv[1:]
         first_arg = pytest_args[0]
 
         if "--local" in pytest_args:
-            pytest_args.remove("--coverage-local")
+            pytest_args.remove("--local")
             pytest_args = [
                 "--cov",
                 "server",
