@@ -1,0 +1,366 @@
+[
+  {
+    "id": 1,
+    "level": 0,
+    "name": "人文科学学部",
+    "logo": "",
+    "pid_id": null
+  },
+  {
+    "id": 2,
+    "level": 0,
+    "name": "社会科学学部",
+    "logo": "",
+    "pid_id": null
+  },
+  {
+    "id": 3,
+    "level": 0,
+    "name": "理学部",
+    "logo": "",
+    "pid_id": null
+  },
+  {
+    "id": 4,
+    "level": 0,
+    "name": "工学部",
+    "logo": "",
+    "pid_id": null
+  },
+  {
+    "id": 5,
+    "level": 0,
+    "name": "信息科学学部",
+    "logo": "",
+    "pid_id": null
+  },
+  {
+    "id": 6,
+    "level": 0,
+    "name": "医学部",
+    "logo": "",
+    "pid_id": null
+  },
+  {
+    "id": 7,
+    "level": 0,
+    "name": "跨学科类",
+    "logo": "",
+    "pid_id": null
+  },
+  {
+    "id": 8,
+    "level": 1,
+    "name": "哲学学院",
+    "logo": "academy\\logo\\zxxy.png",
+    "pid_id": 1
+  },
+  {
+    "id": 9,
+    "level": 1,
+    "name": "国学院",
+    "logo": "academy\\logo\\whu.png",
+    "pid_id": 1
+  },
+  {
+    "id": 10,
+    "level": 1,
+    "name": "文学院",
+    "logo": "academy\\logo\\wxy.png",
+    "pid_id": 1
+  },
+  {
+    "id": 11,
+    "level": 1,
+    "name": "外国语言文学学院",
+    "logo": "academy\\logo\\wgyywxxy.png",
+    "pid_id": 1
+  },
+  {
+    "id": 12,
+    "level": 1,
+    "name": "新闻与传播学院",
+    "logo": "academy\\logo\\xwycbxy.png",
+    "pid_id": 1
+  },
+  {
+    "id": 13,
+    "level": 1,
+    "name": "艺术学院(艺术教育中心)",
+    "logo": "academy\\logo\\ysxyysjyzx.png",
+    "pid_id": 1
+  },
+  {
+    "id": 14,
+    "level": 1,
+    "name": "历史学院",
+    "logo": "academy\\logo\\lsxy.png",
+    "pid_id": 1
+  },
+  {
+    "id": 15,
+    "level": 1,
+    "name": "经济与管理学院",
+    "logo": "academy\\logo\\jjyglxy.png",
+    "pid_id": 2
+  },
+  {
+    "id": 16,
+    "level": 1,
+    "name": "法学院",
+    "logo": "academy\\logo\\fxy.png",
+    "pid_id": 2
+  },
+  {
+    "id": 17,
+    "level": 1,
+    "name": "马克思主义学院",
+    "logo": "academy\\logo\\mkszyxy.png",
+    "pid_id": 2
+  },
+  {
+    "id": 18,
+    "level": 1,
+    "name": "社会学院",
+    "logo": "academy\\logo\\shxy.png",
+    "pid_id": 2
+  },
+  {
+    "id": 19,
+    "level": 1,
+    "name": "政治与公共管理学院",
+    "logo": "academy\\logo\\zzyggglxy.png",
+    "pid_id": 2
+  },
+  {
+    "id": 20,
+    "level": 1,
+    "name": "教育科学研究院",
+    "logo": "academy\\logo\\whu.png",
+    "pid_id": 2
+  },
+  {
+    "id": 21,
+    "level": 1,
+    "name": "信息管理学院",
+    "logo": "academy\\logo\\xxglxy.png",
+    "pid_id": 2
+  },
+  {
+    "id": 22,
+    "level": 1,
+    "name": "数学与统计学院",
+    "logo": "academy\\logo\\sxytjxy.png",
+    "pid_id": 3
+  },
+  {
+    "id": 23,
+    "level": 1,
+    "name": "物理科学与技术学院",
+    "logo": "academy\\logo\\wlkxyjsxy.png",
+    "pid_id": 3
+  },
+  {
+    "id": 24,
+    "level": 1,
+    "name": "化学与分子科学学院",
+    "logo": "academy\\logo\\hxyfzkxxy.png",
+    "pid_id": 3
+  },
+  {
+    "id": 25,
+    "level": 1,
+    "name": "生命科学学院",
+    "logo": "academy\\logo\\smkxxy.png",
+    "pid_id": 3
+  },
+  {
+    "id": 26,
+    "level": 1,
+    "name": "资源与环境科学学院",
+    "logo": "academy\\logo\\zyyhjkxxy.png",
+    "pid_id": 3
+  },
+  {
+    "id": 27,
+    "level": 1,
+    "name": "高等研究院",
+    "logo": "academy\\logo\\whu.png",
+    "pid_id": 3
+  },
+  {
+    "id": 28,
+    "level": 1,
+    "name": "动力与机械学院",
+    "logo": "academy\\logo\\dlyjxxy.png",
+    "pid_id": 4
+  },
+  {
+    "id": 29,
+    "level": 1,
+    "name": "电气与自动化学院",
+    "logo": "academy\\logo\\dqyzdhxy.png",
+    "pid_id": 4
+  },
+  {
+    "id": 30,
+    "level": 1,
+    "name": "城市设计学院",
+    "logo": "academy\\logo\\cssjxy.png",
+    "pid_id": 4
+  },
+  {
+    "id": 31,
+    "level": 1,
+    "name": "土木建筑工程学院",
+    "logo": "academy\\logo\\tmjzgcxy.png",
+    "pid_id": 4
+  },
+  {
+    "id": 32,
+    "level": 1,
+    "name": "水利水电学院",
+    "logo": "academy\\logo\\slsdxy.png",
+    "pid_id": 4
+  },
+  {
+    "id": 33,
+    "level": 1,
+    "name": "工业科学研究院",
+    "logo": "academy\\logo\\whu.png",
+    "pid_id": 4
+  },
+  {
+    "id": 34,
+    "level": 1,
+    "name": "水工程科学研究院",
+    "logo": "academy\\logo\\whu.png",
+    "pid_id": 4
+  },
+  {
+    "id": 35,
+    "level": 1,
+    "name": "电子信息学院",
+    "logo": "academy\\logo\\dzxxxy.png",
+    "pid_id": 5
+  },
+  {
+    "id": 36,
+    "level": 1,
+    "name": "计算机学院",
+    "logo": "academy\\logo\\jsjxy.png",
+    "pid_id": 5
+  },
+  {
+    "id": 37,
+    "level": 1,
+    "name": "测绘学院",
+    "logo": "academy\\logo\\chxy.png",
+    "pid_id": 5
+  },
+  {
+    "id": 38,
+    "level": 1,
+    "name": "遥感信息工程学院",
+    "logo": "academy\\logo\\ygxxgcxy.png",
+    "pid_id": 5
+  },
+  {
+    "id": 39,
+    "level": 1,
+    "name": "印刷与包装系",
+    "logo": "academy\\logo\\ysybzx.png",
+    "pid_id": 5
+  },
+  {
+    "id": 40,
+    "level": 1,
+    "name": "网络安全学院",
+    "logo": "academy\\logo\\wlaqxy.png",
+    "pid_id": 5
+  },
+  {
+    "id": 41,
+    "level": 1,
+    "name": "医学部机关",
+    "logo": "academy\\logo\\whu.png",
+    "pid_id": 6
+  },
+  {
+    "id": 42,
+    "level": 1,
+    "name": "医学研究院",
+    "logo": "academy\\logo\\yxyjy.png",
+    "pid_id": 6
+  },
+  {
+    "id": 43,
+    "level": 1,
+    "name": "基础医学院",
+    "logo": "academy\\logo\\jcyxy.png",
+    "pid_id": 6
+  },
+  {
+    "id": 44,
+    "level": 1,
+    "name": "公共卫生学院",
+    "logo": "academy\\logo\\whu.png",
+    "pid_id": 6
+  },
+  {
+    "id": 45,
+    "level": 1,
+    "name": "药学院",
+    "logo": "academy\\logo\\yxy.png",
+    "pid_id": 6
+  },
+  {
+    "id": 46,
+    "level": 1,
+    "name": "护理学院",
+    "logo": "academy\\logo\\whu.png",
+    "pid_id": 6
+  },
+  {
+    "id": 47,
+    "level": 1,
+    "name": "第一临床学院",
+    "logo": "academy\\logo\\dylcxy.png",
+    "pid_id": 6
+  },
+  {
+    "id": 48,
+    "level": 1,
+    "name": "第二临床学院",
+    "logo": "academy\\logo\\delcxy.png",
+    "pid_id": 6
+  },
+  {
+    "id": 49,
+    "level": 1,
+    "name": "口腔医学院",
+    "logo": "academy\\logo\\kqyxy.png",
+    "pid_id": 6
+  },
+  {
+    "id": 50,
+    "level": 1,
+    "name": "医学职业技术学院",
+    "logo": "academy\\logo\\yxzyjsxy.png",
+    "pid_id": 6
+  },
+  {
+    "id": 51,
+    "level": 1,
+    "name": "弘毅学堂",
+    "logo": "academy\\logo\\hyxt.png",
+    "pid_id": 7
+  },
+  {
+    "id": 52,
+    "level": 1,
+    "name": "微电子学院",
+    "logo": "academy\\logo\\whu.png",
+    "pid_id": 7
+  }
+]
