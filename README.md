@@ -9,17 +9,20 @@ _✨ Author: Nagico ✨_
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.9|3.10|3.11-blue" alt="python">
   <img src="https://img.shields.io/badge/Django-4.0-blue" alt="django">
-  <br />
   <img src="https://img.shields.io/badge/Docker%20Build-automated-blue" alt="docker">
+  <br />
   <a href="https://codecov.io/gh/Nagico/teamup_backend">
     <img src="https://codecov.io/gh/Nagico/teamup_backend/branch/main/graph/badge.svg?token=JNmovF1SJB" alt="codecov">
+  </a>
+  <a href="http://co-server.nagico.cn:9090/dashboard?id=Nagico_teamup_backend_AYdqv8scqcMnH0jYurou">
+    <img src="http://co-server.nagico.cn:9090/api/project_badges/measure?project=Nagico_teamup_backend_AYdqv8scqcMnH0jYurou&metric=alert_status&token=sqb_da520efb5e6dc5f220d57c4daa524f146474733b" alt="sonarqube">
   </a>
   <br />
   <a href="https://github.com/Nagico/teamup_backend/actions/workflows/prod.yml">
     <img src="https://github.com/Nagico/teamup_backend/actions/workflows/prod.yml/badge.svg?branch=production" alt="Production Server CI/CD">
   </a>
   <a href="https://github.com/Nagico/teamup_backend/actions/workflows/test.yml">
-    <img src="https://github.com/Nagico/teamup_backend/actions/workflows/test.yml/badge.svg?branch=master" alt="Test Server CI/CD">
+    <img src="https://github.com/Nagico/teamup_backend/actions/workflows/test.yml/badge.svg?branch=main" alt="Test Server CI/CD">
   </a>
 </p>
 <!-- markdownlint-enable MD033 -->
