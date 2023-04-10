@@ -1,0 +1,66 @@
+version: "3.8"
+name: teamup_backend
+
+x-django: &django
+  image: ccr.ccs.tencentyun.com/nagico/teamup:django
+  env_file: ./.env # ENV file
+  depends_on:
+    - redis
+  networks:
+    - app-net
+
+services:
+  ### Caddy container #########################################
+  caddy:
+    image: registry.cn-hangzhou.aliyuncs.com/ziqiang_studio/caddy:latest
+    depends_on:
+      - django
+    networks:
+      - app-net
+      - traefik
+    labels:
+      traefik.enable: true
+      traefik.http.routers.template.rule: Host(`api.teamup.nagico.cn`)
+      traefik.http.routers.template.entrypoints: websecure
+      traefik.http.services.template.loadbalancer.server.port: 80
+
+  ### Redis container ##########################################
+  redis:
+    image: registry.cn-hangzhou.aliyuncs.com/ziqiang_studio/redis:latest
+    networks:
+      - app-net
+
+  ### Django container #########################################
+  django:
+    <<: *django
+    volumes:
+      - ./log:/app/logs:rw
+
+  ### Celery container ########################################
+  celeryworker:
+    <<: *django
+    entrypoint: ./start-celeryworker.sh
+    healthcheck:
+      disable: true
+
+  celerybeat:
+    <<: *django
+    entrypoint: ./start-celerybeat.sh
+    healthcheck:
+      disable: true
+
+  ### Celery container ########################################
+  meili:
+    image: registry.cn-hangzhou.aliyuncs.com/ziqiang_studio/meilisearch:v1.0.2
+    networks:
+      - app-net
+    env_file:
+      - ./.env
+    volumes:
+      - ./meili_data:/meili_data
+
+### Add Network Bridge info #########################################
+networks:
+  app-net: {}
+  traefik:
+    external: true
