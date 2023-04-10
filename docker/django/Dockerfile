@@ -1,10 +1,10 @@
 ARG PYTHON_VERSION=3.11-slim-bullseye
 
 # define an alias for the specfic python version used in this file.
-FROM python:${PYTHON_VERSION} as python
+FROM python:${PYTHON_VERSION} AS python
 
 # Python build stage
-FROM python as python-build-stage
+FROM python AS python-build-stage
 
 ARG DJANGO_ENV=production
 
@@ -39,7 +39,7 @@ RUN pip wheel --wheel-dir /usr/src/app/wheels  \
 # Delete setuptools and pip to avoid conflicts with the system packages
 RUN rm -rf /usr/src/app/wheels/setuptools* /usr/src/app/wheels/pip*
 
-FROM python as python-run-stage
+FROM python AS python-run-stage
 
 ARG APP_HOME=/app
 
