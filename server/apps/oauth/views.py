@@ -8,7 +8,7 @@ from zq_django_util.response import ResponseType
 
 from .serializers import (
     OpenIdLoginSerializer,
-    PasswordLoginSerializer,
+    UnionIdLoginSerializer,
     WechatLoginSerializer,
     ZqAuthLoginSerializer,
 )
@@ -50,17 +50,13 @@ class WechatLoginView(OpenIdLoginView):
     serializer_class = WechatLoginSerializer
 
 
-class PasswordLoginView(TokenObtainPairView):
-    serializer_class = PasswordLoginSerializer
-
-
-class ZqAuthLoginView(TokenObtainPairView):
+class UnionIdLoginView(TokenObtainPairView):
     """
-    zq auth 登录视图
+    zq auth union id 登录视图
     """
 
     queryset = User.objects.all()
-    serializer_class = ZqAuthLoginSerializer
+    serializer_class = UnionIdLoginSerializer
 
     def post(self, request, *args, **kwargs):
         """
@@ -79,3 +75,11 @@ class ZqAuthLoginView(TokenObtainPairView):
             )
 
         return Response(serializer.validated_data, status=status.HTTP_200_OK)
+
+
+class ZqAuthLoginView(UnionIdLoginView):
+    """
+    zq auth 登录视图
+    """
+
+    serializer_class = ZqAuthLoginSerializer

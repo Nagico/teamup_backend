@@ -4,7 +4,7 @@ from rest_framework_simplejwt.views import TokenRefreshView
 
 from .views import (
     OpenIdLoginView,
-    PasswordLoginView,
+    UnionIdLoginView,
     WechatLoginView,
     ZqAuthLoginView,
 )
@@ -19,13 +19,15 @@ urlpatterns = [
         "login/wechat/openid/", OpenIdLoginView.as_view(), name="openid_pair"
     ),  # openid登录
     path(
+        "login/zq/unionid/",
+        UnionIdLoginView.as_view(),
+        name="zq_auth_union_id",
+    ),  # ZqAuth登录
+    path(
         "login/zq/",
         ZqAuthLoginView.as_view(),
         name="zq_auth_login",
     ),  # ZqAuth登录
-    path(
-        "login/password/", PasswordLoginView.as_view(), name="password_login"
-    ),  # 密码登录
     path(
         "login/refresh/", TokenRefreshView.as_view(), name="token_refresh"
     ),  # 刷新token

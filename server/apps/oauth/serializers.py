@@ -5,13 +5,34 @@ from uuid import UUID
 from oauth.backends import UnionIdBackend
 from rest_framework_simplejwt.serializers import PasswordField
 from users.models import User
+from zq_auth_sdk import UserNotFoundException
+from zq_django_util.exceptions import ApiException
+from zq_django_util.response import ResponseType
 from zq_django_util.utils.auth.backends import OpenIdBackend
 from zq_django_util.utils.auth.serializers import (
     OpenIdLoginSerializer as DefaultOpenIdLoginSerializer,
 )
 
+import server.business.ziqiang.auth as zq_auth
 from server.business.wechat.wxa import get_openid
-from server.business.ziqiang.auth import get_union_id
+
+
+def generate_token_result(
+    user: User,
+    user_id_field: str,
+    expire_time: datetime,
+    access: str,
+    refresh: str,
+) -> dict:
+    return dict(
+        id=getattr(user, user_id_field),
+        username=user.username,
+        is_active=user.is_active,
+        is_staff=user.is_staff,
+        expire_time=expire_time,
+        access=access,
+        refresh=refresh,
+    )
 
 
 class OpenIdLoginSerializer(DefaultOpenIdLoginSerializer):
@@ -24,15 +45,6 @@ class OpenIdLoginSerializer(DefaultOpenIdLoginSerializer):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-    @classmethod
-    def get_token(cls, user: User):
-        """
-        自定义 jwt payload
-        """
-        token = super().get_token(user)
-        token["is_staff"] = user.is_staff
-        return token
-
     def generate_token_result(
         self,
         user: User,
@@ -41,30 +53,9 @@ class OpenIdLoginSerializer(DefaultOpenIdLoginSerializer):
         access: str,
         refresh: str,
     ) -> dict:
-        """
-        生成登录接口返回结果
-
-        :param user: 用户对象
-        :param user_id_field: 用户主键字段
-        :param expire_time: 过期时间
-        :param access: access token
-        :param refresh: refresh token
-        :return:
-        """
-        return dict(
-            id=getattr(user, user_id_field),
-            username=user.username,
-            is_active=user.is_active,
-            expire_time=expire_time,
-            access=access,
-            refresh=refresh,
+        return generate_token_result(
+            user, user_id_field, expire_time, access, refresh
         )
-
-    def handle_new_openid(self, openid: str) -> User:
-        """
-        重写处理新 openid 方法
-        """
-        super().handle_new_openid(openid)
 
 
 class WechatLoginSerializer(OpenIdLoginSerializer):
@@ -86,27 +77,18 @@ class WechatLoginSerializer(OpenIdLoginSerializer):
         return get_openid(attrs["code"])
 
 
-class ZqAuthLoginSerializer(DefaultOpenIdLoginSerializer):
+class UnionIdLoginSerializer(DefaultOpenIdLoginSerializer):
     """
-    自强Auth登录序列化器
+    自强Auth union id 登录序列化器
     """
 
     backend = UnionIdBackend(User)
     openid = None
     openid_field = "union_id"
-    code = PasswordField(label="前端获取code")  # 前端传入 code
+    union_id = PasswordField(label="union_id")  # union_id
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
-    @classmethod
-    def get_token(cls, user: User):
-        """
-        自定义 jwt payload
-        """
-        token = super().get_token(user)
-        token["is_staff"] = user.is_staff
-        return token
 
     def generate_token_result(
         self,
@@ -116,73 +98,51 @@ class ZqAuthLoginSerializer(DefaultOpenIdLoginSerializer):
         access: str,
         refresh: str,
     ) -> dict:
-        """
-        生成登录接口返回结果
-
-        :param user: 用户对象
-        :param user_id_field: 用户主键字段
-        :param expire_time: 过期时间
-        :param access: access token
-        :param refresh: refresh token
-        :return:
-        """
-        return dict(
-            id=getattr(user, user_id_field),
-            username=user.username,
-            is_active=user.is_active,
-            expire_time=expire_time,
-            access=access,
-            refresh=refresh,
+        return generate_token_result(
+            user, user_id_field, expire_time, access, refresh
         )
 
     def get_open_id(self, attrs: Dict[str, Any]) -> UUID:
         """
         重写获取 open_id 方法
         """
-        return get_union_id(attrs["code"])
+        return UUID(attrs["union_id"])
 
     def handle_new_openid(self, union_id: UUID) -> User:
         """
         重写处理新 union id 方法
         """
-        super().handle_new_openid(union_id)
+        try:
+            user_data = zq_auth.fetch_user_info(union_id)
+            data = {
+                "union_id": union_id,
+                "username": f"{user_data['name']}_{user_data['student_id']}",
+                "name": user_data["name"],
+                "phone": user_data["phone"],
+                "student_id": user_data["student_id"],
+                "contact": [{"type": "phone", "value": user_data["phone"]}],
+            }
+            instance = User.objects.create(
+                **data, is_active=True, is_staff=False
+            )
+            return instance
+        except UserNotFoundException:
+            raise ApiException(ResponseType.ThirdServiceError, "用户不存在")
 
 
-class PasswordLoginSerializer(DefaultOpenIdLoginSerializer):
+class ZqAuthLoginSerializer(UnionIdLoginSerializer):
     """
-    密码登录
+    自强Auth登录序列化器
     """
 
-    def generate_token_result(
-        self,
-        user: User,
-        user_id_field: str,
-        expire_time: datetime,
-        access: str,
-        refresh: str,
-    ) -> dict:
-        """
-        生成登录接口返回结果
+    code = PasswordField(label="前端获取code")  # 前端传入 code
+    union_id = None
 
-        :param user: 用户对象
-        :param user_id_field: 用户主键字段
-        :param expire_time: 过期时间
-        :param access: access token
-        :param refresh: refresh token
-        :return:
-        """
-        return dict(
-            id=getattr(user, user_id_field),
-            username=user.username,
-            is_active=user.is_active,
-            expire_time=expire_time,
-            access=access,
-            refresh=refresh,
-            is_superuser=user.is_superuser,
-        )
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
-    @classmethod
-    def get_token(cls, user):
-        token = super().get_token(user)
-        token["is_staff"] = user.is_staff
-        return token
+    def get_open_id(self, attrs: Dict[str, Any]) -> UUID:
+        """
+        重写获取 open_id 方法
+        """
+        return zq_auth.get_union_id(attrs["code"])

@@ -51,7 +51,7 @@ def fetch_user_info(user: User | UUID) -> dict:
 
         return {
             "name": data["name"],
-            "User_id": data["User_id"],
+            "student_id": data["student_id"],
             "phone": data["phone"],
             "update_time": datetime.fromisoformat(data["update_time"]),
         }
