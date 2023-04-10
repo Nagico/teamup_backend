@@ -88,9 +88,9 @@ jobs:
             docker-layer-caching-${{ github.workflow }}-${{ matrix.image }}-
       - name: build and push docker image ${{ matrix.image }}
         run: |
-          docker login ccr.ccs.tencentyun.com --username=${{ secrets.DOCKER_USERNAME }} --password=${{ secrets.DOCKER_PASSWORD }}
-          docker build -f docker/${{ matrix.image }}/Dockerfile -t ccr.ccs.tencentyun.com/nagico/teamup:${{ matrix.image }} .
-          docker push ccr.ccs.tencentyun.com/nagico/teamup:${{ matrix.image }}
+          docker login registry.cn-hangzhou.aliyuncs.com --username=${{ secrets.DOCKER_USERNAME }} --password=${{ secrets.DOCKER_PASSWORD }}
+          docker build -f docker/${{ matrix.image }}/Dockerfile -t registry.cn-hangzhou.aliyuncs.com/ziqiang_studio/teamup-pub:${{ matrix.image }} .
+          docker push registry.cn-hangzhou.aliyuncs.com/ziqiang_studio/teamup-pub:${{ matrix.image }}
   deploy:
     runs-on: ubuntu-latest
     needs:
@@ -104,5 +104,5 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
             cd ~/backend
-            docker login ccr.ccs.tencentyun.com --username=${{ secrets.DOCKER_USERNAME }} --password=${{ secrets.DOCKER_PASSWORD }}
+            docker login registry.cn-hangzhou.aliyuncs.com --username=${{ secrets.DOCKER_USERNAME }} --password=${{ secrets.DOCKER_PASSWORD }}
             docker compose pull

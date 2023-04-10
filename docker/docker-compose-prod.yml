@@ -2,7 +2,7 @@ version: "3.8"
 name: teamup_backend
 
 x-django: &django
-  image: ccr.ccs.tencentyun.com/nagico/teamup:django
+  image: registry.cn-hangzhou.aliyuncs.com/ziqiang_studio/teamup-pub:django
   env_file: ./.env # ENV file
   depends_on:
     - redis
