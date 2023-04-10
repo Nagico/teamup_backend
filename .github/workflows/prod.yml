@@ -57,6 +57,8 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./coverage.xml
           fail_ci_if_error: true
+      - name: Override Coverage Source Path for Sonar
+        run: sed -i 's/\/home\/runner\/work\/teamup_backend\/teamup_backend\//\/github\/workspace\//g' ./coverage.xml
       - name: SonarQube scan
         uses: sonarsource/sonarqube-scan-action@master
         env:
