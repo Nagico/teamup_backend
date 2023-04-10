@@ -23,7 +23,7 @@ urlpatterns = [
             url="https://zq-public-oss.oss-cn-hangzhou.aliyuncs.com/zq-auth/backend/static/static/favorite.ico"
         ),
     ),
-    path("", include("oauth.urls")),  # 登录
+    path("auth/", include("oauth.urls")),  # 登录
     path("users/", include("users.urls")),  # 用户信息
     path("academies/", include("academies.urls")),  # 学院信息
     path("roles/", include("roles.urls")),  # 角色信息

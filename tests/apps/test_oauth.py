@@ -38,14 +38,14 @@ def zq_auth_code(mocker, user_uuid, user_info):
 
 @pytest.fixture
 def user(db, user_uuid, user_info, api_client) -> User:
-    api_client.post("/login/zq/unionid/", {"union_id": user_uuid.hex})
+    api_client.post("/auth/zq/unionid/", {"union_id": user_uuid.hex})
     return User.objects.get(union_id=user_uuid)
 
 
 def test_zq_auth_union_id__new_user(db, api_client, user_info):
     uuid = uuid4()
 
-    data = api_client.post("/login/zq/unionid/", {"union_id": uuid.hex}).json()[
+    data = api_client.post("/auth/zq/unionid/", {"union_id": uuid.hex}).json()[
         "data"
     ]
 
@@ -62,7 +62,7 @@ def test_zq_auth_union_id__new_user(db, api_client, user_info):
 
 def test_zq_auth_union_id__exist(db, api_client, user_info, user):
     data = api_client.post(
-        "/login/zq/unionid/", {"union_id": user.union_id.hex}
+        "/auth/zq/unionid/", {"union_id": user.union_id.hex}
     ).json()["data"]
 
     assert data == {
@@ -77,7 +77,7 @@ def test_zq_auth_union_id__exist(db, api_client, user_info, user):
 
 
 def test_zq_auth__new_user(db, api_client, user_info, zq_auth_code):
-    data = api_client.post("/login/zq/", {"code": zq_auth_code}).json()["data"]
+    data = api_client.post("/auth/zq/", {"code": zq_auth_code}).json()["data"]
 
     assert data == {
         "id": data["id"],
@@ -91,7 +91,7 @@ def test_zq_auth__new_user(db, api_client, user_info, zq_auth_code):
 
 
 def test_zq_auth__exist(db, api_client, user_info, user, zq_auth_code):
-    data = api_client.post("/login/zq/", {"code": zq_auth_code}).json()["data"]
+    data = api_client.post("/auth/zq/", {"code": zq_auth_code}).json()["data"]
 
     assert data == {
         "id": data["id"],
