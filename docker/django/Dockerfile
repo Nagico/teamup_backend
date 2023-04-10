@@ -88,7 +88,7 @@ RUN sed -i 's/\r$//g' start-celeryworker.sh && chmod +x start-celeryworker.sh \
 COPY  ./manage.py manage.py
 COPY ./server/ server/
 
-HEALTHCHECK --interval=30s --timeout=30s --retries=3 CMD curl localhost:8000/api || exit 1
+HEALTHCHECK --interval=30s --timeout=30s --retries=3 CMD curl localhost:8000/ || exit 1
 
 EXPOSE 8000
 
