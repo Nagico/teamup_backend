@@ -73,7 +73,6 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - test
-      - check
     strategy:
       matrix:
         image: [ 'django' ]
