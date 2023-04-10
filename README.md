@@ -31,6 +31,7 @@ _✨ Author: Nagico ✨_
 
 - ~~生产环境: [api.teamup.ziqiang.net.cn](https://api.teamup.ziqiang.net.cn)~~
 - 测试环境: [api.test.teamup.nagico.cn](https://api.test.teamup.nagico.cn)
+- API 文档: [Apipost](https://console-docs.apipost.cn/preview/e8cf89d94c15fd6b/6122ebbfbd077455)
 
 ## 测试
 
