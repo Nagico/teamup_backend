@@ -1,36 +1,44 @@
 <div align="center">
 
-# 自强赛道友你
+# 赛道友你后端
 
 <!-- markdownlint-disable-next-line MD036 -->
-_✨ Author: Ziqiang Studio ✨_
+_✨ Author: Nagico ✨_
 </div>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.9|3.10|3.11-blue" alt="python">
   <img src="https://img.shields.io/badge/Django-4.0-blue" alt="django">
-  <img src="https://img.shields.io/badge/Docker%20Build-automated-blue" alt="docker">、
   <br />
-  <a href="https://github.com/ZiqiangStudio/zq_teamup_backend/actions/workflows/prod.yml">
-    <img src="https://github.com/ZiqiangStudio/zq_teamup_backend/actions/workflows/prod.yml/badge.svg?branch=production" alt="Production Server CI/CD">
+  <img src="https://img.shields.io/badge/Docker%20Build-automated-blue" alt="docker">
+  <a href="https://codecov.io/gh/Nagico/teamup_backend">
+    <img src="https://codecov.io/gh/Nagico/teamup_backend/branch/main/graph/badge.svg?token=JNmovF1SJB" alt="codecov">
   </a>
-  <a href="https://github.com/ZiqiangStudio/zq_teamup_backend/actions/workflows/test.yml">
-    <img src="https://github.com/ZiqiangStudio/zq_teamup_backend/actions/workflows/test.yml/badge.svg?branch=master" alt="Test Server CI/CD">
+  <br />
+  <a href="https://github.com/Nagico/teamup_backend/actions/workflows/prod.yml">
+    <img src="https://github.com/Nagico/teamup_backend/actions/workflows/prod.yml/badge.svg?branch=production" alt="Production Server CI/CD">
+  </a>
+  <a href="https://github.com/Nagico/teamup_backend/actions/workflows/test.yml">
+    <img src="https://github.com/Nagico/teamup_backend/actions/workflows/test.yml/badge.svg?branch=master" alt="Test Server CI/CD">
   </a>
 </p>
 <!-- markdownlint-enable MD033 -->
 
 ## 项目地址
 
-- 生产环境: [api.teamup.ziqiang.net.cn](https://api.teamup.ziqiang.net.cn)
-- 测试环境: [api.test.teamup.ziqiang.net.cn](https://api.test.teamup.ziqiang.net.cn)
+- ~~生产环境: [api.teamup.ziqiang.net.cn](https://api.teamup.ziqiang.net.cn)~~
+- 测试环境: [api.test.teamup.nagico.cn](https://api.test.teamup.nagico.cn)
+
+## 测试
+
+[![codecov](https://codecov.io/gh/Nagico/teamup_backend/branch/main/graphs/sunburst.svg?token=JNmovF1SJB)](https://codecov.io/gh/Nagico/teamup_backend)
 
 ## 开发
 
 1. 克隆项目
 
 ```bash
-git clone https://github.com/ZiqiangStudio/zq_teamup_backend.git
+git clone https://github.com/Nagico/teamup_backend.git
 ```
 
 2. 创建 conda 环境（推荐）
