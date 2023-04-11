@@ -77,7 +77,7 @@ class TeamDemand(models.Model):
         return f"{self.team}-{self.role}"
 
 
-class TeamMember(models.Model, CommonUserInformation):
+class TeamMember(CommonUserInformation):
     """
     队伍成员
     """

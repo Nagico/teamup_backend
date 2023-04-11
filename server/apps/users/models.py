@@ -30,11 +30,11 @@ class User(AbstractUser, CommonUserInformation):
     contact = models.JSONField(default=list, verbose_name="联系方式")
     student_id = models.CharField(max_length=20, blank=True, verbose_name="学号")
 
-    like_team = models.ManyToManyField(
+    favorite_teams = models.ManyToManyField(
         "teams.Team", related_name="users", blank=True, verbose_name="收藏的队伍"
     )
 
-    like_activity = models.ManyToManyField(
+    favorite_activities = models.ManyToManyField(
         "activities.Activity",
         related_name="users",
         blank=True,
