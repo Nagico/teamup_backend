@@ -14,6 +14,7 @@ class Team(models.Model):
 
     activity = models.ForeignKey(
         Activity,
+        null=True,
         on_delete=models.CASCADE,
         related_name="teams",
         verbose_name="所属赛事",
@@ -33,6 +34,8 @@ class Team(models.Model):
     # [{"type": ..., "value": ...}, ...]
     # types: phone, email, wechat, qq
     contact = models.JSONField(default=list, verbose_name="联系方式")
+
+    public = models.BooleanField(default=False, verbose_name="是否公开")
 
     class Meta:
         app_label = "teams"
