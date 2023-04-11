@@ -4,6 +4,8 @@ from .models import Activity
 
 
 class ActivitySerializer(serializers.ModelSerializer):
+    favorite = serializers.SerializerMethodField()
+
     class Meta:
         model = Activity
         fields = [
@@ -15,7 +17,11 @@ class ActivitySerializer(serializers.ModelSerializer):
             "start_time",
             "end_time",
             "time_node",
+            "favorite",
         ]
+
+    def get_favorite(self, obj):
+        return obj.users.filter(id=self.context["request"].user.id).exists()
 
 
 class ActivityInfoSerializer(serializers.ModelSerializer):

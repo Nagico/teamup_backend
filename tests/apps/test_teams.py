@@ -275,3 +275,18 @@ def test_delete_team_demand__not_found(api_client, team, user):
     response = api_client.delete(f"/teams/{team.id}/demands/10/")
 
     assert response.status_code == 404
+
+
+def test_team_user_favorite(api_client, team, user):
+    api_client.force_authenticate(user=user)
+    data = api_client.get(f"/teams/{team.id}/").json()["data"]
+
+    assert data["favorite"] is False
+
+    api_client.post("/teams/1/favorites/")
+    data = api_client.get("/teams/1/").json()["data"]
+    assert data["favorite"] is True
+
+    api_client.delete("/teams/1/favorites/")
+    data = api_client.get("/teams/1/").json()["data"]
+    assert data["favorite"] is False

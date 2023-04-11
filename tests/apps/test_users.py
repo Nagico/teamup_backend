@@ -222,3 +222,23 @@ def test_get_user_teams(user, api_client, team):
     data = api_client.get("/users/teams/").json()["data"]
 
     assert len(data) == 1
+
+
+def test_get_user_favorite_teams(user, api_client, team):
+    api_client.force_authenticate(user=user)
+    data = api_client.get("/users/favorites/teams/").json()["data"]
+    assert len(data) == 0
+
+    user.favorite_teams.add(team)
+    data = api_client.get("/users/favorites/teams/").json()["data"]
+    assert len(data) == 1
+
+
+def test_get_user_favorite_activities(user, api_client, activity):
+    api_client.force_authenticate(user=user)
+    data = api_client.get("/users/favorites/activities/").json()["data"]
+    assert len(data) == 0
+
+    user.favorite_activities.add(activity)
+    data = api_client.get("/users/favorites/activities/").json()["data"]
+    assert len(data) == 1

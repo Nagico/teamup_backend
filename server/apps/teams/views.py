@@ -1,8 +1,10 @@
 from django.db.models import Q
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import viewsets
+from rest_framework import status, viewsets
+from rest_framework.decorators import action
 from rest_framework.filters import OrderingFilter
 from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
 from rest_framework_extensions.mixins import NestedViewSetMixin
 from teams.models import Team, TeamDemand, TeamMember
 from teams.serializers import (
@@ -39,8 +41,24 @@ class TeamViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             return TeamInfoSerializer
         return super().get_serializer_class()
 
+    @action(detail=True, methods=["post", "delete"])
+    def favorites(self, request, *args, **kwargs):
+        """
+        收藏队伍
+        """
+        if request.method == "POST":
+            request.user.favorite_teams.add(self.get_object())
+            return Response(status=status.HTTP_201_CREATED)
+        else:
+            request.user.favorite_teams.remove(self.get_object())
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 class TeamNestedViewSetMixin(NestedViewSetMixin):
+    """
+    teams/ 嵌套的下级视图集 公共代码
+    """
+
     # prepare request.team
     def initial(self, request, *args, **kwargs):
         team_id = self.get_parents_query_dict()["team__id"]

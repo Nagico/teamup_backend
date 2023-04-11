@@ -24,3 +24,17 @@ def test_get_activity(api_client, activities):
     assert data["information"] == activities[0].information
     assert data["time_node"] == activities[0].time_node
     assert data["title"] == activities[0].title
+
+
+def test_activity_user_favorite(user, api_client, activities):
+    api_client.force_authenticate(user=user)
+    data = api_client.get("/activities/1/").json()["data"]
+    assert data["favorite"] is False
+
+    api_client.post("/activities/1/favorites/")
+    data = api_client.get("/activities/1/").json()["data"]
+    assert data["favorite"] is True
+
+    api_client.delete("/activities/1/favorites/")
+    data = api_client.get("/activities/1/").json()["data"]
+    assert data["favorite"] is False

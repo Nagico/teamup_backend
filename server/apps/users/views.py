@@ -54,19 +54,24 @@ class UserViewSet(
         获取收藏的队伍
         """
         pass
-        # queryset = self.get_queryset().first().favorite_teams.all()
-        # TODO: serializer = TeamInfoSerializer(queryset, many=True)
-        # return Response(serializer.data)
+        queryset = self.get_queryset().first().favorite_teams.all()
+        serializer = TeamInfoSerializer(
+            queryset, many=True, context={"request": request}
+        )
+        return Response(serializer.data)
 
     @action(detail=False, methods=["get"], url_path="favorites/activities")
     def favorite_activities(self, request, *args, **kwargs):
         """
         获取收藏的比赛
         """
-        pass
-        # queryset = self.get_queryset().first().favorite_activities.all()
-        # TODO: serializer = ActivityInfoSerializer(queryset, many=True)
-        # return Response(serializer.data)
+        from activities.serializers import ActivityInfoSerializer
+
+        queryset = self.get_queryset().first().favorite_activities.all()
+        serializer = ActivityInfoSerializer(
+            queryset, many=True, context={"request": request}
+        )
+        return Response(serializer.data)
 
     @action(detail=False, methods=["get"])
     def teams(self, request, *args, **kwargs):
