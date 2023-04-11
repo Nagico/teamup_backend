@@ -11,6 +11,15 @@ omit =
   */setup.cfg
   */.tox/*
   */.venv/*
+  */business/*
+  */asgi.py
+  */wsgi.py
+  */celery.py
+  */docs/*
+  */logging_handler.py
+  */async_tasks/management/*
+  */async_tasks/utils.py
+
 
 [report]
 exclude_lines =
@@ -23,3 +32,4 @@ exclude_lines =
   if __name__ == .__main__.:
   class .*\bProtocol\):
   @(abc\.)?abstractmethod
+  if settings._ENV == "test"
