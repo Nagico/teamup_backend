@@ -4,6 +4,14 @@ from zq_django_util.response import ResponseType
 from server.utils.choices.types import DegreeType
 
 
+def test_get_teams(api_client, team):
+    data = api_client.get("/teams/").json()["data"]
+    assert data["count"] == 1
+
+    data = api_client.get("/teams/?activity__id=2").json()["data"]
+    assert data["count"] == 0
+
+
 def test_get_team(api_client, team):
     data = api_client.get(f"/teams/{team.id}/").json()["data"]
     assert data["id"] == team.id
