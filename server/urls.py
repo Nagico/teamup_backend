@@ -29,6 +29,7 @@ urlpatterns = [
     path("roles/", include("roles.urls")),  # 角色
     path("teams/", include("teams.urls")),  # 队伍
     path("activities/", include("activities.urls")),  # 赛事
+    path("search/", include("search.urls")),  # 搜索
 ]
 
 urlpatterns += router.urls

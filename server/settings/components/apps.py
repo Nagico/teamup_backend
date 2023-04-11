@@ -33,6 +33,7 @@ LOCAL_APPS: list[str] = [
     "feedbacks",  # 反馈
     "roles",  # 角色
     "teams",  # 队伍
+    "search",  # 搜索
 ]
 
 INSTALLED_APPS: list[str] = (
