@@ -1,30 +1,4 @@
-import pytest
 from roles.models import Role
-
-
-@pytest.fixture
-def roles(db):
-    Role.objects.create(name="1", level=0, description="1", parent=None)
-    Role.objects.create(name="2", level=0, description="2", parent=None)
-
-    Role.objects.create(
-        name="1.1",
-        level=1,
-        description="1.1",
-        parent=Role.objects.get(name="1"),
-    )
-    Role.objects.create(
-        name="1.2",
-        level=1,
-        description="1.2",
-        parent=Role.objects.get(name="1"),
-    )
-    Role.objects.create(
-        name="2.1",
-        level=1,
-        description="2.1",
-        parent=Role.objects.get(name="2"),
-    )
 
 
 def test_get_roles__root(roles, api_client):

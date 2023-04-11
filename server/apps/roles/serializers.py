@@ -16,3 +16,13 @@ class RoleSerializer(serializers.ModelSerializer):
 
     def get_children_count(self, obj) -> int:
         return obj.sub_roles.count()
+
+
+class RoleInfoSerializer(serializers.ModelSerializer):
+    """
+    角色简要序列化器
+    """
+
+    class Meta:
+        model = models.Role
+        fields = ["id", "name"]

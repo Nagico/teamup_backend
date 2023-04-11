@@ -1,5 +1,5 @@
 from academies.models import Academy
-from academies.serializers import AcademyDetailSerializer
+from academies.serializers import AcademySerializer
 from rest_framework import mixins
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -19,7 +19,7 @@ class AcademyViewSet(
     """
 
     queryset = Academy.objects.all()
-    serializer_class = AcademyDetailSerializer
+    serializer_class = AcademySerializer
     permission_classes = [AllowAny]  # 允许任何人访问
     pagination_class = None  # 禁用分页
 

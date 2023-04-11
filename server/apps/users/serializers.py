@@ -71,3 +71,24 @@ class UserInfoSerializer(serializers.ModelSerializer):
             "degree",
             "grade",
         ]
+
+
+class UserTeamMemberSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            "id",
+            "nickname",
+            "academy",
+            "degree",
+            "grade",
+            "introduction",
+            "experience",
+        ]
+
+    def to_representation(self, instance):
+        from academies.serializers import AcademySerializer
+
+        data = super().to_representation(instance)
+        data["academy"] = AcademySerializer(instance.academy).data
+        return data

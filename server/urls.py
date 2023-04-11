@@ -24,9 +24,10 @@ urlpatterns = [
         ),
     ),
     path("auth/", include("oauth.urls")),  # 登录
-    path("users/", include("users.urls")),  # 用户信息
-    path("academies/", include("academies.urls")),  # 学院信息
-    path("roles/", include("roles.urls")),  # 角色信息
+    path("users/", include("users.urls")),  # 用户
+    path("academies/", include("academies.urls")),  # 学院
+    path("roles/", include("roles.urls")),  # 角色
+    path("teams/", include("teams.urls")),  # 队伍
 ]
 
 urlpatterns += router.urls
