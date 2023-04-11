@@ -2,6 +2,7 @@ import uuid
 from uuid import UUID
 
 import pytest
+from model_bakery import baker
 
 from server.utils.choices.types import DegreeType
 
@@ -144,4 +145,26 @@ def user2(db):
             },
             {"type": "email", "value": "123123@123.com"},
         ],
+    )
+
+
+@pytest.fixture
+def activity(db):
+    from activities.models import Activity
+
+    return baker.make(Activity)
+
+
+@pytest.fixture
+def team(db, user, activity):
+    from teams.models import Team
+
+    return Team.objects.create(
+        leader=user,
+        name="test",
+        introduction="tttest",
+        activity=activity,
+        teacher="test",
+        contact=[{"type": "qq", "value": "123"}],
+        public=True,
     )

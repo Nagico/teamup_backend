@@ -1,7 +1,7 @@
 from academies.serializers import AcademySerializer
 from rest_framework import serializers
 from roles.serializers import RoleInfoSerializer
-from users.serializers import UserTeamMemberSerializer
+from users.serializers import UserInfoSerializer, UserTeamMemberSerializer
 from zq_django_util.exceptions import ApiException
 from zq_django_util.response import ResponseType
 
@@ -74,8 +74,42 @@ class TeamDemandSerializer(serializers.ModelSerializer):
         return data
 
 
-class TeamSerializer(serializers.ModelSerializer):
-    leader = UserTeamMemberSerializer(read_only=True)
+class TeamInfoSerializer(serializers.ModelSerializer):
+    leader = UserInfoSerializer(read_only=True)
+    favorite = serializers.SerializerMethodField()
+    demand_tags = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Team
+        fields = [
+            "id",
+            "name",
+            "introduction",
+            "leader",
+            "activity",
+            "demand_tags",
+            "favorite",
+            "update_time",
+        ]
+
+    def get_favorite(self, obj: Team) -> bool:
+        if self.context["request"].user.is_authenticated:
+            return obj.users.filter(id=self.context["request"].user.id).exists()
+        else:
+            return False
+
+    def get_demand_tags(self, obj: Team) -> list:
+        return obj.demands.values_list("role__name", flat=True).distinct()
+
+    def to_representation(self, instance):
+        from activities.serializers import ActivityInfoSerializer
+
+        data = super().to_representation(instance)
+        data["activity"] = ActivityInfoSerializer(instance.activity).data
+        return data
+
+
+class TeamSerializer(TeamInfoSerializer):
     members = TeamMemberSerializer(many=True, read_only=True)
     demands = TeamDemandSerializer(many=True, read_only=True)
 
@@ -92,6 +126,7 @@ class TeamSerializer(serializers.ModelSerializer):
             "leader",
             "members",
             "demands",
+            "favorite",
         ]
 
     def create(self, validated_data):
@@ -99,8 +134,3 @@ class TeamSerializer(serializers.ModelSerializer):
             **validated_data,
             leader=self.context["request"].user,
         )
-
-    def to_representation(self, instance):
-        data = super().to_representation(instance)
-        # TODO: data["activity"] = instance.activity.name
-        return data

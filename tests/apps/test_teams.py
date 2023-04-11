@@ -1,36 +1,14 @@
-import pytest
-from activities.models import Activity
-from model_bakery import baker
 from teams.models import Team, TeamDemand, TeamMember
 from zq_django_util.response import ResponseType
 
 from server.utils.choices.types import DegreeType
 
 
-@pytest.fixture
-def activity(db):
-    return baker.make(Activity)
-
-
-@pytest.fixture
-def team(db, user, activity):
-    return Team.objects.create(
-        leader=user,
-        name="test",
-        introduction="tttest",
-        activity=activity,
-        teacher="test",
-        contact=[{"type": "qq", "value": "123"}],
-        public=True,
-    )
-
-
 def test_get_team(api_client, team):
     data = api_client.get(f"/teams/{team.id}/").json()["data"]
-    # TODO: ActivitySerializer
     assert data["id"] == team.id
     assert data["name"] == team.name
-    assert data["activity"] == team.activity.id
+    assert data["activity"]["id"] == team.activity.id
     assert data["introduction"] == team.introduction
     assert data["teacher"] == team.teacher
     assert data["contact"] == team.contact
@@ -81,7 +59,7 @@ def test_update_team(db, api_client, user, activity):
     ).json()["data"]
 
     assert data["name"] == "test"
-    assert data["activity"] == activity.id
+    assert data["activity"]["id"] == activity.id
     assert data["introduction"] == "test"
     assert data["teacher"] == "test"
     assert data["contact"] == [{"type": "qq", "value": "123"}]

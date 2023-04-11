@@ -215,3 +215,10 @@ def test_unbind_wechat(user, api_client, wechat_code):
     assert response.status_code == 204
     user.refresh_from_db()
     assert user.openid is None
+
+
+def test_get_user_teams(user, api_client, team):
+    api_client.force_authenticate(user=user)
+    data = api_client.get("/users/teams/").json()["data"]
+
+    assert len(data) == 1

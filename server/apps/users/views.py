@@ -2,6 +2,8 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
+from teams.models import Team
+from teams.serializers import TeamInfoSerializer
 from users.models import User
 from users.serializers import UserInfoSerializer, UserSerializer
 from zq_django_util.exceptions import ApiException
@@ -65,6 +67,17 @@ class UserViewSet(
         # queryset = self.get_queryset().first().favorite_activities.all()
         # TODO: serializer = ActivityInfoSerializer(queryset, many=True)
         # return Response(serializer.data)
+
+    @action(detail=False, methods=["get"])
+    def teams(self, request, *args, **kwargs):
+        """
+        获取自己的队伍
+        """
+        queryset = Team.objects.filter(leader=request.user)
+        serializer = TeamInfoSerializer(
+            queryset, many=True, context={"request": request}
+        )
+        return Response(serializer.data)
 
     @action(detail=False, methods=["post", "delete"], url_path="wechat")
     def wechat(self, request, *args, **kwargs):
