@@ -5,10 +5,10 @@ description = "赛道友你"
 authors = ["Nagico <coyangjr@whu.edu.cn>"]
 readme = "README.md"
 
-#[[tool.poetry.source]]
-#name = "tsinghua"
-#default = true
-#url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+[[tool.poetry.source]]
+name = "tsinghua"
+default = true
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 
 [tool.poetry.dependencies]
 python = ">=3.9,<4.0"
@@ -43,7 +43,9 @@ celery = "^5.2.7"
 django-celery-results = "^2.4.0"
 django-celery-beat = "^2.4.0"
 flower = "^1.2.0"
-meilisearch = "^0.25.0"
+meilisearch = "^0.26.0"
+channels = "^4.0.0"
+channels-redis = "^4.1.0"
 
 
 [tool.poetry.group.test.dependencies]
@@ -74,6 +76,7 @@ pytest-django = "^4.5.2"
 pytest-mock = "^3.10.0"
 model-bakery = "^1.10.1"
 pytest-xdist = "^3.2.0"
+channels = {extras = ["daphne"], version = "^4.0.0"}
 
 [build-system]
 requires = ["poetry-core"]
