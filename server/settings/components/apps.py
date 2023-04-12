@@ -1,5 +1,6 @@
 DJANGO_APPS: list[str] = [
-    "simpleui",  # admin ui（必须在第一行）
+    "daphne",  # asgi server
+    "simpleui",  # admin ui
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -22,6 +23,7 @@ THIRD_PARTY_APPS: list[str] = [
     "django_celery_results",  # celery兼容支持
     "django_celery_beat",  # celery定时任务
     "zq_django_util.logs",  # 日志记录
+    "channels",  # websocket
 ]
 
 LOCAL_APPS: list[str] = [
@@ -33,6 +35,7 @@ LOCAL_APPS: list[str] = [
     "feedbacks",  # 反馈
     "roles",  # 角色
     "teams",  # 队伍
+    "chat",  # 消息
     "search",  # 搜索
 ]
 
