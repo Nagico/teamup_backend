@@ -42,3 +42,14 @@ class FeedbackType(models.IntegerChoices):
     INFORMATION = 3, "信息错误"
     BAN = 4, "封禁反馈"
     OTHER = 5, "其他"
+
+
+class MessageType(models.IntegerChoices):
+    """
+    消息类型
+    """
+
+    UNKNOWN = 0, "未知"
+    SYSTEM = 1, "系统消息"
+    ACTIVITY = 2, "赛事消息"
+    CHAT = 3, "聊天消息"
