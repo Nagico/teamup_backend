@@ -35,7 +35,7 @@ class TeamIndexSerializer(serializers.ModelSerializer):
         return bool(obj.teacher)
 
     def get_activity_id(self, obj) -> int:
-        return obj.activity.id
+        return obj.activity.id if obj.activity else None
 
     def get_role_ids(self, obj) -> list:
         return list(obj.demands.values_list("role_id", flat=True).distinct())
