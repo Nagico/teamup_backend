@@ -1,5 +1,4 @@
-version: "3.8"
-name: teamup_backend-unittest
+version: "3"
 
 services:
   ### Redis container ##########################################
