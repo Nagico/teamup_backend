@@ -46,6 +46,7 @@ flower = "^1.2.0"
 meilisearch = "^0.26.0"
 channels = "^4.0.0"
 channels-redis = "^4.1.0"
+dnspython = "^2.3.0"
 
 
 [tool.poetry.group.test.dependencies]

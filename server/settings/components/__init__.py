@@ -17,3 +17,5 @@ from server.settings.components.storage import *
 from server.settings.components.wechat import *
 from server.settings.components.zq_auth import *
 from server.settings.components.channels import *
+from server.settings.components.chat import *
+from server.settings.components.chat import *

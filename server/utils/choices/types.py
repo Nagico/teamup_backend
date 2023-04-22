@@ -50,6 +50,5 @@ class MessageType(models.IntegerChoices):
     """
 
     UNKNOWN = 0, "未知"
-    SYSTEM = 1, "系统消息"
-    ACTIVITY = 2, "赛事消息"
-    CHAT = 3, "聊天消息"
+    MESSAGE = 1, "聊天消息"
+    ACK = 2, "确认"

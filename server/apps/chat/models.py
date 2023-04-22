@@ -4,26 +4,33 @@ from server.utils.choices.types import MessageType
 
 
 class Message(models.Model):
+    id = models.UUIDField(primary_key=True, verbose_name="消息ID")
+
     sender = models.ForeignKey(
         "users.User",
+        null=True,
+        blank=True,
         on_delete=models.CASCADE,
         related_name="send_messages",
         verbose_name="发送用户",
     )
     receiver = models.ForeignKey(
         "users.User",
+        null=True,
+        blank=True,
         on_delete=models.CASCADE,
         related_name="received_messages",
         verbose_name="接收用户",
     )
 
-    content = models.TextField(verbose_name="内容")
     type = models.IntegerField(
         choices=MessageType.choices,
         default=MessageType.UNKNOWN,
-        verbose_name="类型",
+        verbose_name="消息类型",
     )
-    read = models.BooleanField(default=False, verbose_name="已读")
+
+    content = models.JSONField(default=dict, verbose_name="消息内容")
+    is_read = models.BooleanField(default=False, verbose_name="已读")
     create_time = models.DateTimeField(verbose_name="创建时间")
 
     class Meta:

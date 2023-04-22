@@ -43,6 +43,8 @@ class CacheConfig:
         "db_cache": 3,  # 数据库缓存
         "view": 4,  # 视图缓存
         "celery": 5,  # celery缓存
+        "unread": 6,  # 未读消息缓存
+        "chat": 7,  # 聊天缓存
     }
 
     @staticmethod
