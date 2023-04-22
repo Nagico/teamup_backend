@@ -1,5 +1,4 @@
 DJANGO_APPS: list[str] = [
-    "daphne",  # asgi server
     "simpleui",  # admin ui
     "django.contrib.admin",
     "django.contrib.auth",
@@ -23,7 +22,6 @@ THIRD_PARTY_APPS: list[str] = [
     "django_celery_results",  # celery兼容支持
     "django_celery_beat",  # celery定时任务
     "zq_django_util.logs",  # 日志记录
-    "channels",  # websocket
 ]
 
 LOCAL_APPS: list[str] = [
