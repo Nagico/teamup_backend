@@ -1,0 +1,15 @@
+version: "3.8"
+name: teamup_backend-unittest
+
+services:
+  ### Redis container ##########################################
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+
+  ### Celery container ########################################
+  meili:
+    image: getmeili/meilisearch:v1.1.1
+    ports:
+      - "7700:7700"

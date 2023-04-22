@@ -51,6 +51,9 @@ jobs:
           poetry run black --check server
           poetry run flake8 server --count --statistics
           poetry run isort --check-only server
+      - name: Run Docker Compose Environment
+        run: |
+          docker-compose -f docker/docker-compose-unittest.yml up -d
       - name: Pytest
         run: poetry run pytest --cov-config=tests/.coveragerc --cov server --cov-report xml -n logical
       - name: Upload coverage
