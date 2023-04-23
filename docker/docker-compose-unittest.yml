@@ -3,7 +3,7 @@ version: "3"
 services:
   ### Redis container ##########################################
   redis:
-    image: redis:latest
+    image: redis:7.0.11
     ports:
       - "6379:6379"
 
