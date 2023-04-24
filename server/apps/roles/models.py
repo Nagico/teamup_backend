@@ -15,7 +15,6 @@ class Role(models.Model):
         verbose_name="父级角色",
     )
     name = models.CharField(max_length=30, blank=True, verbose_name="角色名")
-    level = models.IntegerField(default=0, verbose_name="级别")
     description = models.TextField(blank=True, verbose_name="角色描述")
 
     class Meta:
