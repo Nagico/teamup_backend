@@ -5,6 +5,8 @@ from uuid import UUID
 from django.utils import timezone
 from loguru import logger
 
+from server.utils.choices.types import MessageType
+
 
 class MQHandler:
     @staticmethod
@@ -12,10 +14,11 @@ class MQHandler:
         try:
             data = json.loads(body)
 
-            if data["type"] == 0:  # Message
-                MQHandler.create(data)
+            if data["content"]["type"] == MessageType.READ.value:  # 已读回执
+                MQHandler.read(data["content"]["content"])
             else:
-                MQHandler.ack(data)
+                MQHandler.create(data)
+
         except Exception as e:
             logger.error(e)
 
@@ -27,15 +30,19 @@ class MQHandler:
             id=UUID(data["id"]),
             sender_id=data["sender"],
             receiver_id=data["receiver"],
-            type=data["type"],
-            content=json.loads(data["content"]),
+            type=data["content"]["type"],
+            content=data["content"]["content"],
             create_time=datetime.datetime.fromtimestamp(
                 data["createTime"] / 1000, tz=timezone.utc
             ),
         )
 
-    @staticmethod
-    def ack(data):
-        from chat.models import Message
+        logger.debug(f"Add message {data['id']} to database.")
 
-        Message.objects.filter(id=UUID(data["id"])).update(is_read=True)
+    @staticmethod
+    def read(uuid):
+        from chat.models import Message
+        try:
+            Message.objects.filter(id=UUID(uuid)).update(is_read=True)
+        except Exception as e:
+            logger.error(f"Message {uuid} not found.\n {e}")

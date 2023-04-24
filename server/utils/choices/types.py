@@ -49,6 +49,6 @@ class MessageType(models.IntegerChoices):
     消息类型
     """
 
-    UNKNOWN = -1, "未知"
-    MESSAGE = 0, "聊天消息"
-    ACK = 1, "确认"
+    UNKNOWN = 0, "未知"
+    CHAT = 1, "聊天消息"
+    READ = 2, "已读回执"
