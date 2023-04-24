@@ -11,16 +11,12 @@ from server.utils.choices.types import MessageType
 class MQHandler:
     @staticmethod
     def handle_message(body):
-        try:
-            data = json.loads(body)
+        data = json.loads(body)
 
-            if data["content"]["type"] == MessageType.READ.value:  # 已读回执
-                MQHandler.read(data["content"]["content"])
-            else:
-                MQHandler.create(data)
-
-        except Exception as e:
-            logger.error(e)
+        if data["content"]["type"] == MessageType.READ.value:  # 已读回执
+            MQHandler.read(data["content"]["content"])
+        else:
+            MQHandler.create(data)
 
     @staticmethod
     def create(data):

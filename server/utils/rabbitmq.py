@@ -19,12 +19,16 @@ class RabbitMQ:
         self.channel.basic_consume(
             queue=self.SAVE_QUEUE_NAME,
             on_message_callback=self.callback,
-            auto_ack=True,
+            auto_ack=False,
         )
         logger.success(f"RabbitMQ starting consuming {self.SAVE_QUEUE_NAME}")
 
     def callback(self, ch, method, properties, body):
-        MQHandler.handle_message(body)
+        try:
+            MQHandler.handle_message(body)
+            ch.basic_ack(delivery_tag=method.delivery_tag)
+        except Exception as e:
+            logger.error(e)
 
     def start(self):
         self.channel.start_consuming()
