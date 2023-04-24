@@ -104,6 +104,14 @@ class TeamMember(CommonUserInformation):
         verbose_name="队伍",
     )
 
+    role = models.ForeignKey(
+        "roles.Role",
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="team_members",
+        verbose_name="角色",
+    )
+
     class Meta:
         app_label = "teams"
         db_table = "zq_team_member"
