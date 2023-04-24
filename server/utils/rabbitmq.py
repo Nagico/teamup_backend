@@ -16,6 +16,13 @@ class RabbitMQ:
         )
         self.channel = self.connection.channel()
 
+        self.queue = self.channel.queue_declare(
+            queue=self.SAVE_QUEUE_NAME,
+            durable=True,
+            exclusive=False,
+            auto_delete=False,
+        )
+
         self.channel.basic_consume(
             queue=self.SAVE_QUEUE_NAME,
             on_message_callback=self.callback,
