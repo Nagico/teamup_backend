@@ -42,6 +42,7 @@ class MQHandler:
     @staticmethod
     def read(uuid):
         from chat.models import Message
+
         try:
             Message.objects.filter(id=UUID(uuid)).update(is_read=True)
         except Exception as e:

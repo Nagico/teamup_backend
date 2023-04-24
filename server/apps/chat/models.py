@@ -39,4 +39,3 @@ class Message(models.Model):
         verbose_name = "消息"
         verbose_name_plural = verbose_name
         ordering = ["-create_time"]
-
