@@ -65,13 +65,17 @@ class TeamSearchViewSet(BaseSearchViewSet):
         if has_teacher:
             has_teacher = has_teacher == "true"
 
-        activity_ids = request.query_params.get("activities", None)
-        if activity_ids:
-            activity_ids = [int(i) for i in activity_ids.split(",")]
+        activity_ids = request.GET.getlist("activities[]", None)
+        if activity_ids and len(activity_ids) > 0:
+            activity_ids = [int(i) for i in activity_ids]
+        else:
+            activity_ids = None
 
-        role_ids = request.query_params.get("roles", None)
-        if role_ids:
-            role_ids = [int(i) for i in role_ids.split(",")]
+        role_ids = request.GET.getlist("roles[]", None)
+        if role_ids and len(role_ids) > 0:
+            role_ids = [int(i) for i in role_ids]
+        else:
+            role_ids = None
 
         return self.helper.search_with_request(
             text,
