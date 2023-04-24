@@ -14,6 +14,7 @@ class TeamMemberSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "user",
+            "role",
             "nickname",
             "academy",
             "degree",
@@ -41,7 +42,7 @@ class TeamMemberSerializer(serializers.ModelSerializer):
             )
         return value
 
-    def to_representation(self, instance):
+    def to_representation(self, instance: TeamMember):
         if instance.user:  # 处理导入队员信息
             data = UserTeamMemberSerializer(instance.user).data
             data["id"] = instance.id
@@ -49,6 +50,7 @@ class TeamMemberSerializer(serializers.ModelSerializer):
         else:
             data = super().to_representation(instance)
             data["academy"] = AcademySerializer(instance.academy).data
+        data["role"] = RoleInfoSerializer(instance.role).data
         return data
 
 

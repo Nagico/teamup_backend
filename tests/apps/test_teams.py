@@ -74,14 +74,12 @@ def test_update_team(db, api_client, user, activity):
     assert data["public"] is True
 
 
-def test_add_team_member__import(api_client, team, user, user2):
+def test_add_team_member__import(api_client, team, user, user2, roles):
     api_client.force_authenticate(user=user)
 
     data = api_client.post(
         f"/teams/{team.id}/members/",
-        {
-            "user": user2.id,
-        },
+        {"user": user2.id, "role": roles[0].id},
         format="json",
     ).json()["data"]
 
@@ -92,28 +90,40 @@ def test_add_team_member__import(api_client, team, user, user2):
     assert data["introduction"] == user2.introduction
     assert data["experience"] == user2.experience
     assert data["user"] == user2.id
+    assert data["role"]["id"] == roles[0].id
 
 
-def test_add_team_member__not_found(api_client, team, user):
+def test_add_team_member__not_found(api_client, team, user, roles):
     api_client.force_authenticate(user=user)
 
     data = api_client.post(
         f"/teams/{team.id}/members/",
-        {
-            "user": 10,
-        },
+        {"user": 10, "role": roles[0].id},
         format="json",
     ).json()
 
     assert data["code"] == ResponseType.ParamValidationFailed.code
 
 
-def test_add_team_member__manual(api_client, team, user):
+def test_add_team_member__role_not_found(api_client, team, user, user2):
+    api_client.force_authenticate(user=user)
+
+    data = api_client.post(
+        f"/teams/{team.id}/members/",
+        {"user": user2.id, "role": 1},
+        format="json",
+    ).json()
+
+    assert data["code"] == ResponseType.ParamValidationFailed.code
+
+
+def test_add_team_member__manual(api_client, team, user, roles):
     api_client.force_authenticate(user=user)
 
     data = api_client.post(
         f"/teams/{team.id}/members/",
         {
+            "role": roles[0].id,
             "nickname": "test",
             "academy": 10,
             "degree": DegreeType.BACHELOR,
@@ -131,9 +141,10 @@ def test_add_team_member__manual(api_client, team, user):
     assert data["introduction"] == "test"
     assert data["experience"] == ["test"]
     assert data["user"] is None
+    assert data["role"]["id"] == roles[0].id
 
 
-def test_add_team_member__already_in_team(api_client, team, user, user2):
+def test_add_team_member__already_in_team(api_client, team, user, user2, roles):
     TeamMember.objects.create(user=user2, team=team)
     api_client.force_authenticate(user=user)
 
@@ -141,6 +152,7 @@ def test_add_team_member__already_in_team(api_client, team, user, user2):
         f"/teams/{team.id}/members/",
         {
             "user": user2.id,
+            "role": roles[0].id,
         },
         format="json",
     ).json()
@@ -148,13 +160,14 @@ def test_add_team_member__already_in_team(api_client, team, user, user2):
     assert data["code"] == ResponseType.ParamValidationFailed.code
 
 
-def test_add_team_member__already_leader(api_client, team, user):
+def test_add_team_member__already_leader(api_client, team, user, roles):
     api_client.force_authenticate(user=user)
 
     data = api_client.post(
         f"/teams/{team.id}/members/",
         {
             "user": user.id,
+            "role": roles[0].id,
         },
         format="json",
     ).json()
