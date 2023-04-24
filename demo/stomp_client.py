@@ -51,16 +51,9 @@ receipt:{}
         )
 
     @staticmethod
-    def send(command: str) -> str:
-        cmd_list = command.split(" ")
-        receiver = command.split(" ")[1]
-        if len(cmd_list) == 2:
-            content = input("content: ")
-        else:
-            content = " ".join(cmd_list[2:])
-
+    def _send(receiver: str, msg_type: str, content: str) -> str:
         content_dict = {
-            "type": "text",
+            "type": int(msg_type),
             "content": content,
         }
 
@@ -75,10 +68,48 @@ content-length:{len(msg)}
 {msg}\0"""
 
     @staticmethod
+    def send(command: str) -> str:
+        cmd_list = command.split(" ")
+        receiver = command.split(" ")[1]
+        if len(cmd_list) == 2:
+            msg_type = input("type: ")
+            content = input("content: ")
+        elif len(cmd_list) == 3:
+            msg_type = input("type: ")
+            content = " ".join(cmd_list[2:])
+        else:
+            msg_type = cmd_list[2]
+            content = " ".join(cmd_list[3:])
+
+        return STOMP._send(receiver, msg_type, content)
+
+    @staticmethod
+    def chat(command: str):
+        cmd_list = command.split(" ")
+        receiver = command.split(" ")[1]
+        if len(cmd_list) == 2:
+            content = input("content: ")
+        else:
+            content = " ".join(cmd_list[2:])
+
+        return STOMP._send(receiver, "1", content)
+
+    @staticmethod
+    def read(command: str):
+        cmd_list = command.split(" ")
+        receiver = command.split(" ")[1]
+        if len(cmd_list) == 2:
+            content = input("content: ")
+        else:
+            content = " ".join(cmd_list[2:])
+
+        return STOMP._send(receiver, "2", content)
+
+    @staticmethod
     def ack(command: str) -> str:
         cmd_list = command.split(" ")
         return f"""ACK
-id:{cmd_list[1]}
+message-id:{cmd_list[1]}
 
 \0"""
 
@@ -92,7 +123,7 @@ class StompState:
 
 class WS:
     def __init__(self):
-        self.url = "wss://api.test.teamup.nagico.cn/chat"
+        self.url = "ws://localhost:8060/chat"
         self.ws = None
 
         self.state = 0
@@ -143,6 +174,14 @@ class WS:
             tmp = input()
             if tmp.startswith("#SEND"):
                 cmd = STOMP.send(tmp)
+                self.send(cmd)
+                continue
+            if tmp.startswith("#CHAT"):
+                cmd = STOMP.chat(tmp)
+                self.send(cmd)
+                continue
+            if tmp.startswith("#READ"):
+                cmd = STOMP.read(tmp)
                 self.send(cmd)
                 continue
             if tmp.startswith("#ACK"):

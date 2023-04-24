@@ -29,7 +29,7 @@ class Message(models.Model):
         verbose_name="消息类型",
     )
 
-    content = models.JSONField(default=dict, verbose_name="消息内容")
+    content = models.TextField(verbose_name="消息内容")
     is_read = models.BooleanField(default=False, verbose_name="已读")
     create_time = models.DateTimeField(verbose_name="创建时间")
 
@@ -39,3 +39,4 @@ class Message(models.Model):
         verbose_name = "消息"
         verbose_name_plural = verbose_name
         ordering = ["-create_time"]
+
