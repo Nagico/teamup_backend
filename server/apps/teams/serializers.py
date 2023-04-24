@@ -1,7 +1,7 @@
 from academies.serializers import AcademySerializer
 from rest_framework import serializers
 from roles.serializers import RoleInfoSerializer
-from users.serializers import UserInfoSerializer, UserTeamMemberSerializer
+from users.serializers import UserLeaderSerializer, UserTeamMemberSerializer
 from zq_django_util.exceptions import ApiException
 from zq_django_util.response import ResponseType
 
@@ -77,7 +77,7 @@ class TeamDemandSerializer(serializers.ModelSerializer):
 
 
 class TeamInfoSerializer(serializers.ModelSerializer):
-    leader = UserInfoSerializer(read_only=True)
+    leader = UserLeaderSerializer(read_only=True)
     favorite = serializers.SerializerMethodField()
     demand_tags = serializers.SerializerMethodField()
 

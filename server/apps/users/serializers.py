@@ -73,11 +73,12 @@ class UserInfoSerializer(serializers.ModelSerializer):
         ]
 
 
-class UserTeamMemberSerializer(serializers.ModelSerializer):
+class UserLeaderSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
             "id",
+            "avatar",
             "nickname",
             "academy",
             "degree",
@@ -90,5 +91,23 @@ class UserTeamMemberSerializer(serializers.ModelSerializer):
         from academies.serializers import AcademySerializer
 
         data = super().to_representation(instance)
-        data["academy"] = AcademySerializer(instance.academy).data
+        data["academy"] = (
+            AcademySerializer(instance.academy).data
+            if instance.academy
+            else None
+        )
         return data
+
+
+class UserTeamMemberSerializer(UserLeaderSerializer):
+    class Meta:
+        model = User
+        fields = [
+            "id",
+            "nickname",
+            "academy",
+            "degree",
+            "grade",
+            "introduction",
+            "experience",
+        ]
