@@ -12,7 +12,7 @@ class RoleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Role
-        exclude = ["level"]
+        fields = "__all__"
 
     def get_children_count(self, obj) -> int:
         return obj.sub_roles.count()

@@ -11,24 +11,21 @@ from server.utils.choices.types import DegreeType
 def roles(db):
     from roles.models import Role
 
-    Role.objects.create(name="1", level=0, description="1", parent=None)
-    Role.objects.create(name="2", level=0, description="2", parent=None)
+    Role.objects.create(name="1", description="1", parent=None)
+    Role.objects.create(name="2", description="2", parent=None)
 
     Role.objects.create(
         name="1.1",
-        level=1,
         description="1.1",
         parent=Role.objects.get(name="1"),
     )
     Role.objects.create(
         name="1.2",
-        level=1,
         description="1.2",
         parent=Role.objects.get(name="1"),
     )
     Role.objects.create(
         name="2.1",
-        level=1,
         description="2.1",
         parent=Role.objects.get(name="2"),
     )
