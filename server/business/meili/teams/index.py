@@ -9,6 +9,8 @@ from server.business.meili.teams.serializers import TeamIndexSerializer
 class TeamIndex(BaseIndex):
     index_uid = "teams"
 
+    primary_key = "id"
+
     filterable_attributes = [
         "public",
         "has_teacher",

@@ -9,6 +9,8 @@ from server.business.meili.activities.serializers import ActivityIndexSerializer
 class ActivityIndex(BaseIndex):
     index_uid = "activities"
 
+    primary_key = "id"
+
     searchable_attributes = [
         "title",
         "introduction",
