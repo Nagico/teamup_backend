@@ -11,7 +11,7 @@ class ChatSerializer(serializers.ModelSerializer):
             "receiver",
             "content",
             "type",
-            "read",
+            "is_read",
             "create_time",
         ]
         read_only_fields = [
@@ -19,7 +19,3 @@ class ChatSerializer(serializers.ModelSerializer):
             "sender",
             "read",
         ]
-
-    def create(self, validated_data):
-        validated_data["sender"] = self.context["request"].user
-        return super().create(validated_data)
