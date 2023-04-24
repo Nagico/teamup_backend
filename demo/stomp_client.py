@@ -92,7 +92,7 @@ class StompState:
 
 class WS:
     def __init__(self):
-        self.url = "ws://localhost:8060/chat"
+        self.url = "wss://api.test.teamup.nagico.cn/chat"
         self.ws = None
 
         self.state = 0

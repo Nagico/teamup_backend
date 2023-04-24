@@ -12,7 +12,7 @@ x-django: &django
 services:
   ### Caddy container #########################################
   caddy:
-    image: registry.cn-hangzhou.aliyuncs.com/ziqiang_studio/caddy:latest
+    image: registry.cn-hangzhou.aliyuncs.com/ziqiang_studio/teamup-pub:caddy-test
     depends_on:
       - django
     networks:
@@ -36,20 +36,7 @@ services:
     volumes:
       - ./log:/app/logs:rw
 
-  ### Celery container ########################################
-  celeryworker:
-    <<: *django
-    entrypoint: ./start-celeryworker.sh
-    healthcheck:
-      disable: true
-
-  celerybeat:
-    <<: *django
-    entrypoint: ./start-celerybeat.sh
-    healthcheck:
-      disable: true
-
-  ### Celery container ########################################
+  ### Meili container ########################################
   meili:
     image: registry.cn-hangzhou.aliyuncs.com/ziqiang_studio/meilisearch:v1.0.2
     networks:
@@ -58,6 +45,24 @@ services:
       - ./.env
     volumes:
       - ./meili_data:/meili_data
+
+  ### RabbitMQ container ########################################
+  mq:
+    image: rabbitmq:3-management
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
+      - RABBITMQ_DEFAULT_VHOST=/teamup
+    networks:
+      - app-net
+
+  ### Chat container ########################################
+  chat:
+    image: registry.cn-hangzhou.aliyuncs.com/ziqiang_studio/teamup-pub:chat-test
+    volumes:
+      - ./application.yml:/etc/spring/application.yml:rw
+    networks:
+      - app-net
 
 ### Add Network Bridge info #########################################
 networks:
