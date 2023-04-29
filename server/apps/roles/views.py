@@ -12,6 +12,3 @@ class RoleViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [AllowAny]
     filter_backends = [OrderingFilter, DjangoFilterBackend]
     filterset_fields = {"parent": ["exact", "isnull"]}
-
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
