@@ -42,10 +42,26 @@ class UserViewSet(
 
     def list(self, request, *args, **kwargs):
         """
-        获取自己信息
+        获取自己信息 or 用户id获取
         """
-        queryset = self.get_queryset().first()
-        serializer = self.get_serializer(queryset)
+        nickname = request.query_params.get("nickname", None)
+        student_id = request.query_params.get("student_id", None)
+        if nickname and student_id:  # 传入 昵称和学号 进行 user id 查询
+            if request.user.is_anonymous:
+                raise ApiException(ResponseType.NotLogin)
+            user = User.objects.filter(
+                nickname=nickname, student_id=student_id
+            ).first()
+            if not user:
+                raise ApiException(
+                    ResponseType.ResourceNotFound, msg="您输入的昵称和学号有误，请检查后重试"
+                )
+
+            serializer = UserInfoSerializer(user)
+        else:  # 获取本人用户信息
+            user = self.get_queryset().first()
+            serializer = self.get_serializer(user)
+
         return Response(serializer.data)
 
     @action(detail=False, methods=["get"], url_path="favorites/teams")
