@@ -12,7 +12,7 @@ url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 
 [tool.poetry.dependencies]
 python = ">=3.9,<4.0"
-django = "^4.1.4"
+django = "^4.2.1"
 djangorestframework = "^3.14.0"
 django-cors-headers = "^3.13.0"
 drf-spectacular = "^0.25.1"
