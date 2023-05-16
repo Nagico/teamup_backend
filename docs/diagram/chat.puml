@@ -1,0 +1,33 @@
+@startuml
+
+scale 1000 width
+top to bottom direction
+
+'folder 传输层 {
+'    interface NettyServer
+'    class StompWebSocketChatServerInitializer
+'}
+
+'folder 编解码层 {
+'    class StompWebSocketFrameEncoder
+'    class StompWebSocketProtocolCodec
+'    class StompChatHandler
+'}
+
+'folder 业务逻辑层 {
+'    interface MessageQueueService
+'    interface StompMessageService
+'    interface StompService
+'    interface UserService
+'}
+
+folder 基础服务层 {
+    interface UserCacheManager
+    interface MessageCacheManager
+
+    interface Jwt
+
+    interface MessageQueue
+}
+
+@enduml

@@ -1,0 +1,217 @@
+@startuml
+
+'----------Abstract---------
+
+abstract class BaseView
+abstract class BaseViewUI
+
+abstract class Model {
+    + objects
+    + save()
+    + delete()
+}
+
+abstract class BaseIndexHelper {
+    + query_set
+    + serializer_class
+    + index_class
+    - _to_queryset()
+    + upsert_index()
+    + delete_index()
+    + rebuild_index()
+    + search()
+    + search_with_request()
+}
+
+abstract class BaseIndex {
+    + index_uid
+    + primary_key
+    + client
+    + class_settings
+    + add_documents()
+    + delete_documents()
+    + delete_all_documents()
+}
+
+BaseIndexHelper *-- BaseIndex
+
+abstract class GenericViewSet {
+    + query_set
+    + serializer_class
+}
+
+abstract class BaseSearchViewSet extends GenericViewSet {
+    - search()
+}
+
+'----------查询招募信息---------
+
+class HomeView extends BaseView
+class Team extends Model
+class TeamViewSet extends GenericViewSet
+class TeamSearchViewSet extends BaseSearchViewSet
+class TeamIndex extends BaseIndex
+class TeamIndexHelper extends BaseIndexHelper
+
+HomeView --- TeamSearchViewSet
+TeamSearchViewSet --- TeamIndexHelper
+TeamSearchViewSet --- Team
+
+HomeView --- TeamViewSet
+TeamViewSet --- Team
+
+
+'----------发布招募信息---------
+
+class CreateTeamView extends BaseView
+
+CreateTeamView --- TeamViewSet
+
+'----------查询比赛信息---------
+
+class CompetitionView extends BaseView
+class ActivityViewSet extends GenericViewSet
+class Activity extends Model
+
+CompetitionView --- ActivityViewSet
+ActivityViewSet --- Activity
+
+'----------举报招募信息---------
+
+class TeamDetailView extends BaseView
+class FeedbackView extends BaseView
+class FeedbackViewSet extends GenericViewSet
+class Feedback extends Model
+
+TeamDetailView -- FeedbackView
+FeedbackView -- FeedbackViewSet
+FeedbackViewSet -- Feedback
+
+'----------设置个人信息---------
+
+class UserInfoView extends BaseView
+class UserViewSet extends GenericViewSet
+class User extends Model
+
+UserInfoView -- UserViewSet
+UserViewSet -- User
+
+'----------上传文件---------
+
+class FileViewSet extends GenericViewSet
+
+UserInfoView --- FileViewSet
+
+'----------即时通信---------
+
+class ChatView extends BaseView
+
+class ChatService
+
+interface MessageCacheManager {
+    # redisTemplate
+    + getMessageCache()
+    + addMessageCache()
+    + deleteMessageCache()
+}
+
+interface UserCacheManager {
+    # redisTemplate
+    + getUserServer()
+    + online()
+    + offline()
+    + getUserUnreceivedMessages()
+    + addUserUnreceivedMessage()
+    + deleteUserUnreceivedMessage()
+}
+
+interface MessageQueueService {
+    + saveStompMessage()
+    + forwardStompMessage()
+}
+
+interface StompMessageService {
+    + getMessage()
+    + deliverMessage()
+    + ackMessage()
+    + fetchUnreceivedMessages()
+}
+
+interface StompService {
+    + onConnect()
+    + onDisconnect()
+    + onSend()
+    + onAck()
+    + deliverMessage()
+    + sendErrorFrame()
+}
+
+interface UserService {
+    + getUserStatus()
+    + online()
+    + offline()
+    + getUserServer()
+}
+
+interface NettyServer {
+    + start()
+    + stop()
+}
+
+interface Jwt {
+    + validateToken()
+}
+
+class MQHandler {
+    + create()
+}
+
+class Message extends Model
+
+ChatView --- ChatService
+ChatService --- NettyServer
+NettyServer --- StompService
+StompService --- Jwt
+StompService --- UserService
+StompService --- StompMessageService
+UserService --- UserCacheManager
+StompMessageService --- UserCacheManager
+StompMessageService --- MessageCacheManager
+
+StompService --- MessageQueueService
+StompMessageService --- MessageQueueService
+
+MessageQueueService --- MQHandler
+MQHandler --- Message
+
+Message -[hidden]> MQHandler
+
+
+'----------查看轮播图---------
+
+class BannerViewSet extends GenericViewSet
+class Banner extends Model
+
+HomeView --- BannerViewSet
+BannerViewSet --- Banner
+
+'----------处理举报信息---------
+
+class FeedbackViewUI extends BaseViewUI
+
+FeedbackViewUI --- FeedbackViewSet
+FeedbackViewUI --- TeamViewSet
+
+'----------管理比赛信息---------
+
+class CompetitionViewUI extends BaseViewUI
+
+CompetitionViewUI --- ActivityViewSet
+
+'----------管理轮播图---------
+
+class BannerViewUI extends BaseViewUI
+
+BannerViewUI --- BannerViewSet
+
+@enduml

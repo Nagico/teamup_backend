@@ -1,0 +1,85 @@
+@startuml
+
+scale 1000 width
+top to bottom direction
+
+'folder "视图层" {
+'    protocol AcademyViewSet
+'
+'    protocol ActivityViewSet
+'
+'    protocol ChatViewSet
+'
+'    protocol FeedbackViewSet
+'
+'    protocol WechatLoginView
+'    protocol ZqAuthLoginView
+'
+'    protocol RoleViewSet
+'
+'    protocol TeamSearchViewSet
+'    protocol ActivitySearchViewSet
+'
+'    protocol TeamViewSet
+'    protocol TeamMemberViewSet
+'    protocol TeamDemandViewSet
+'
+'    protocol UserViewSet
+'}
+
+'folder "序列化器层" {
+'    class AcademySerializer
+'
+'    class ActivitySerializer
+'
+'    class ChatSerializer
+'
+'    class FeedbackSerializer
+'
+'    class RoleSerializer
+'    class RoleInfoSerializer
+'
+'    class TeamSerializer
+'    class TeamInfoSerializer
+'    class TeamMemberSerializer
+'    class TeamDemandSerializer
+'
+'    class UserSerializer
+'    class UserInfoSerializer
+'    class UserLeaderSerializer
+'    class UserTeamMemberSerializer
+'}
+'
+'
+'folder "模型层" {
+'    entity Academy
+'
+'    entity Activity
+'
+'    entity Message
+'
+'    entity Feedback
+'
+'    entity Role
+'
+'    entity Team
+'    entity TeamMember
+'    entity TeamDemand
+'
+'    entity User
+'}
+'
+cloud "基础服务层" {
+    database MySQL
+
+    [Redis]
+
+    [OSS]
+
+    [RabbitMQ]
+
+    [MeiliSearch]
+
+    [ZiqiangAuth]
+}
+@enduml
