@@ -63,6 +63,7 @@ receipt:{}
 id:{uuid4()}
 destination:{receiver}
 content-type:application/json
+receipt: {random.randint(0,10000)}
 content-length:{len(msg)}
 
 {msg}\0"""
@@ -123,7 +124,8 @@ class StompState:
 
 class WS:
     def __init__(self):
-        self.url = "ws://localhost:8060/chat"
+        # self.url = "ws://localhost:8060/"
+        self.url = "wss://chat.test.teamup.nagico.cn/"
         self.ws = None
 
         self.state = 0
