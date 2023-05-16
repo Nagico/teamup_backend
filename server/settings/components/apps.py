@@ -35,6 +35,8 @@ LOCAL_APPS: list[str] = [
     "teams",  # 队伍
     "chat",  # 消息
     "search",  # 搜索
+    "files",  # 文件
+    "banners",  # 轮播图
 ]
 
 INSTALLED_APPS: list[str] = (
