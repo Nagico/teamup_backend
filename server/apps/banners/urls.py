@@ -6,6 +6,6 @@ router = routers.SimpleRouter()
 
 urlpatterns = []
 
-router.register(r"banners", views.BannerViewSet)  # 轮播图
+router.register(r"", views.BannerViewSet)  # 轮播图
 
 urlpatterns += router.urls

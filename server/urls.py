@@ -31,6 +31,9 @@ urlpatterns = [
     path("activities/", include("activities.urls")),  # 赛事
     path("search/", include("search.urls")),  # 搜索
     path("chats/", include("chat.urls")),  # 聊天
+    path("files/", include("files.urls")),  # 文件
+    path("banners/", include("banners.urls")),  # 轮播图
+    path("feedbacks/", include("feedbacks.urls")),  # 反馈
 ]
 
 urlpatterns += router.urls
