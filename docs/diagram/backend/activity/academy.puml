@@ -1,0 +1,23 @@
+@startuml
+
+start
+:初始化 result 空列表;
+:设置循环计数器 item 为 queryset 中的第一个项;
+while (item 不为空) is (true)
+  :创建 node 对象;
+  :设置 node 的 id 和 name 属性;
+  :初始化 children 为空列表;
+  :设置循环计数器 child 为 queryset 中的第一个子项;
+  while (child 不为空) is (true)
+    :创建子节点对象;
+    :设置子节点的 id 和 name 属性;
+    :将子节点添加到 node 的 children 列表中;
+    :获取下一个子项，更新 child 计数器;
+  endwhile
+  :将 node 添加到 result 列表中;
+  :获取下一个项，更新 item 计数器;
+endwhile
+:返回 Response(result);
+stop
+
+@enduml

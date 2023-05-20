@@ -1,0 +1,22 @@
+@startuml
+
+|StompService|
+start
+:获取用户信息;
+:获取receipt;
+if (receipt存在) then (yes)
+  :发送回执帧;
+else (no)
+  :关闭连接;
+  |UserService|
+  :用户下线;
+  stop;
+  |StompService|
+endif
+:发送回执帧;
+:关闭连接;
+|UserService|
+:用户下线;
+stop
+
+@enduml

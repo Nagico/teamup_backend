@@ -3,31 +3,115 @@
 scale 1000 width
 top to bottom direction
 
-'folder 传输层 {
-'    interface NettyServer
-'    class StompWebSocketChatServerInitializer
-'}
-
-'folder 编解码层 {
-'    class StompWebSocketFrameEncoder
-'    class StompWebSocketProtocolCodec
-'    class StompChatHandler
-'}
-
-'folder 业务逻辑层 {
-'    interface MessageQueueService
-'    interface StompMessageService
-'    interface StompService
-'    interface UserService
-'}
-
-folder 基础服务层 {
-    interface UserCacheManager
-    interface MessageCacheManager
-
-    interface Jwt
-
-    interface MessageQueue
+folder 传输层 {
+    interface NettyServer {
+        + start()
+        + close()
+    }
+    class StompWebSocketChatServerInitializer {
+        - chatPath: String
+        - stompWebSocketProtocolCodec: StompWebSocketProtocolCodec
+        + initChannel(channel: SocketChannel)
+    }
 }
+'
+'folder 编解码层 {
+'    entity StompSubscription {
+'        - user: Long
+'        - channel: Channel
+'    }
+'
+'    entity StompMessage {
+'        - id: String
+'        - type: StompMessageType
+'        - sender: Long
+'        - receiver: Long
+'        - content: StompMessageContent
+'        - createTime: Long
+'        + StompMessage(frame: StompFrame, sender: Long, receiver: Long)
+'        + toStompFrame(): StompFrame
+'        + toJson(): String
+'    }
+'
+'    class StompException {
+'        - type: StompExceptionType
+'        + StompException(type: StompExceptionType = StompExceptionType.UNKNOWN_ERROR, message: String? = null, cause: Throwable? = null)
+'    }
+'
+'
+'    entity StompMessageContent {
+'        - type: StompMessageContentType
+'        - content: String
+'        + toString(): String
+'    }
+'
+'    class StompWebSocketFrameEncoder {
+'        - convertFullFrame(original: StompFrame, encoded: ByteBuf): WebSocketFrame
+'        - convertHeadersSubFrame(original: StompHeadersSubframe, encoded: ByteBuf): WebSocketFrame
+'        - convertContentSubFrame(original: StompContentSubframe, encoded: ByteBuf): WebSocketFrame
+'        - isTextFrame(headersSubframe: StompHeadersSubframe): Boolean
+'    }
+'    class StompWebSocketProtocolCodec {
+'        - userEventTriggered(ctx: ChannelHandlerContext, evt: Any)
+'        - encode(ctx: ChannelHandlerContext, stompFrame: StompSubframe?, out: List<Any>)
+'        - decode(ctx: ChannelHandlerContext, webSocketFrame: WebSocketFrame, out: MutableList<Any>)
+'    }
+'    class StompChatHandler {
+'        - stompService: StompService
+'        + channelRead0(ctx: ChannelHandlerContext, inboundFrame: StompFrame)
+'        + exceptionCaught(ctx: ChannelHandlerContext, cause: Throwable)
+'    }
+'}
+'
+'folder 业务逻辑层 {
+'    interface MessageQueueService {
+'        + saveStompMessage(stompMessage: StompMessage)
+'        + forwardStompMessage(target: String, stompMessage: StompMessage)
+'    }
+'    interface StompMessageService {
+'        + getMessage(messageId: UUID): StompMessage
+'        + getMessage(messageId: String): StompMessage
+'        + deliverMessage(message: StompMessage)
+'        + ackMessage(userId: Long, messageId: String)
+'        + fetchUnreceivedMessages(userId: Long): List<StompMessage>
+'    }
+'    interface StompMessageService {
+'        + getMessage(messageId: UUID): StompMessage
+'        + getMessage(messageId: String): StompMessage
+'        + deliverMessage(message: StompMessage)
+'        + ackMessage(userId: Long, messageId: String)
+'        + fetchUnreceivedMessages(userId: Long): List<StompMessage>
+'    }
+'    interface UserService {
+'        + getUserStatus(userId: Long): UserStatus
+'        + online(userId: Long)
+'        + offline(userId: Long)
+'        + getUserServer(userId: Long): String?
+'    }
+'}
+
+'folder 基础服务层 {
+'    interface UserCacheManager {
+'        + getUserServer(userId: Long): String?
+'        + online(userId: Long, serverUUID: String)
+'        + offline(userId: Long)
+'        + getUserUnreceivedMessages(userId: Long): List<String>
+'        + addUserUnreceivedMessage(message: StompMessage)
+'        + deleteUserUnreceivedMessage(userId: Long, messageId: String)
+'    }
+'    interface MessageCacheManager {
+'        + getMessageCache(messageId: String): StompMessage?
+'        + addMessageCache(message: StompMessage)
+'        + deleteMessageCache(messageId: String)
+'    }
+'
+'    interface Jwt {
+'        + validateToken(token: String): JwtPayload
+'    }
+'
+'    interface MessageQueue {
+'        + handleDeliverMessage(data: String)
+'    }
+'}
 
 @enduml

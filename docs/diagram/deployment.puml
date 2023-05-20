@@ -1,0 +1,59 @@
+@startuml
+
+top to bottom direction
+
+actor User
+
+folder MobileDevice {
+    agent Browser
+}
+
+User -- MobileDevice
+
+folder "OSS with CDN" as OSS {
+    artifact TeamupFrontend
+}
+
+Browser <--> TeamupFrontend : https://teamup.nagico.cn/
+
+folder ServerGroup {
+    frame BackendGroup {
+        artifact TeamupBackend
+    }
+
+    frame ChatGroup {
+        artifact TeamupChat
+    }
+}
+
+folder FoundationService {
+    frame MQGroup {
+        queue RabbitMQ
+    }
+
+    frame SearchEngineGroup {
+        node MeiliSearch
+    }
+
+    frame CacheGroup {
+        storage Redis
+    }
+
+    frame DBGroup {
+        database MySQL
+    }
+}
+
+
+Browser <-[dashed]-> TeamupBackend : https://api.teamup.nagico.cn/
+Browser <-[dashed]-> TeamupChat : wss://chat.teamup.nagico.cn/
+
+OSS -[hidden]- ServerGroup
+
+TeamupBackend <-[dotted]-> RabbitMQ
+RabbitMQ <-[dotted]-> TeamupChat
+
+TeamupBackend <-[dotted]-> MeiliSearch
+ServerGroup <-[dotted]-> Redis
+TeamupBackend <-[dotted]-> MySQL
+@enduml

@@ -1,0 +1,55 @@
+@startuml
+
+
+|validate_photo|
+start
+if (value 存在?) then (否)
+    :返回 value;
+    stop
+else (是)
+    |validate_image|
+    :接收 value, min_size, max_size 参数;
+    if (value.content_type 不在 ["image/jpeg", "image/png"]) then (是)
+        :抛出 ApiException;
+        stop
+    else (否)
+    if (max_size 不为空且 value.size > max_size) then (是)
+        :抛出 ApiException;
+        stop
+    else (否)
+    if (min_size 不为空且 value.size < min_size) then (是)
+        :抛出 ApiException;
+        stop
+    else (否)
+        :返回 value;
+    endif
+    endif
+    endif
+    |compress_image|
+    :接收 content, field_name, width, height 参数;
+    :打开 content.file;
+    if (width 存在且 height 不存在) then (是)
+        :计算宽度比例;
+        :计算压缩后的高度;
+    else (否)
+    if (width 不存在且 height 存在) then (是)
+    :计算高度比例;
+    :计算压缩后的宽度;
+    else (否)
+        if (width 存在且 height 存在) then (是)
+            :压缩图片;
+        endif
+    endif
+    endif
+    :创建新文件对象;
+    :保存压缩后的图片到新文件对象;
+    :获取文件大小;
+    :将文件指针移动到开头;
+    :创建 InMemoryUploadedFile 对象;
+    :返回新的 InMemoryUploadedFile 对象;
+    |validate_photo|
+    :返回新对象;
+    stop
+endif
+
+@enduml

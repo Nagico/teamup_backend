@@ -1,0 +1,49 @@
+@startuml
+
+class AcademyViewSet {
+  - queryset: Academy.objects.all()
+  - serializer_class: AcademySerializer
+  - permission_classes: [AllowAny]
+  - pagination_class: None
+
+  + list(request, *args, **kwargs)
+}
+
+class CacheResponseMixin {
+  + cache_response(key_func="list_cache_key_func", timeout=3600)
+}
+
+class ListModelMixin {
+  + list(request, *args, **kwargs)
+}
+
+class RetrieveModelMixin {
+  + retrieve(request, *args, **kwargs)
+}
+
+class GenericViewSet {
+
+}
+
+class AcademySerializer {
+  exclude = ["level"]
+}
+
+class Academy {
+  - parent: Academy
+  - level: int
+  - name: str
+
+  + __str__()
+}
+
+AcademyViewSet --> CacheResponseMixin
+AcademyViewSet --> ListModelMixin
+AcademyViewSet --> RetrieveModelMixin
+AcademyViewSet --> GenericViewSet
+
+AcademyViewSet "1" --> "1..*" Academy
+
+AcademySerializer --> Academy
+
+@enduml

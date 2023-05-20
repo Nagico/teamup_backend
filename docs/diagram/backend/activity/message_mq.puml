@@ -1,0 +1,26 @@
+@startuml
+
+start
+partition "handle_message" {
+  :接收 body 参数;
+  :解析 body 为 JSON 数据;
+  if (content.type == MessageType.READ.value) then (是)
+    :调用 read 方法;
+  else (否)
+    :调用 create 方法;
+  endif
+  note right: 在此处处理可能的异常情况\n例如捕获并记录异常
+}
+partition "create" {
+  :导入 chat.models 中的 Message 类;
+  :创建 Message 对象，设置各个属性;
+  :保存 Message 对象到数据库;
+  note right: 在此处处理可能的异常情况\n例如捕获并记录异常
+}
+partition "read" {
+  :导入 chat.models 中的 Message 类;
+  :根据给定的 uuid 更新对应的 Message 对象的 is_read 属性;
+  note right: 在此处处理可能的异常情况\n例如捕获并记录异常
+}
+
+@enduml

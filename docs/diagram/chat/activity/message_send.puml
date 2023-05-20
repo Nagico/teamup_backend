@@ -1,0 +1,29 @@
+@startuml
+
+|StompMessageService|
+start
+:获取目的地址;
+:获取用户信息和构建StompMessage;
+:messageCacheManager添加消息缓存;
+:userCacheManager添加未接收消息;
+:messageQueueService保存StompMessage;
+:获取接收方所在服务器;
+if (服务器存在) then (true)
+  |MessageQueueService|
+  :转发StompMessage到目标服务器;
+  |MessageQueue|
+  :处理转发的消息;
+  |StompService|
+  :获取接收方订阅;
+  if (订阅存在) then (true)
+    :发送消息给订阅;
+  else (false)
+    stop
+  endif
+else (false)
+  |StompMessageService|
+  stop
+endif
+stop
+
+@enduml

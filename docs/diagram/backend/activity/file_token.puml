@@ -1,0 +1,31 @@
+@startuml
+
+start
+:定义方法 token;
+:获取请求中的 user;
+if (user 未经身份验证?) then (是)
+  :抛出 ApiException;
+else (否)
+  :获取请求中的 filename;
+  if (filename 不存在?) then (是)
+    :抛出 ApiException;
+  else (否)
+    :获取文件名的 name 和 ext 部分;
+    :创建 File 对象，设置各个属性;
+    :构建 callback_dict;
+    :调用 get_token 方法获取 token;
+    if (token 存在?) then (是)
+      :构建 res 响应;
+      if (res 存在?) then (是)
+        :返回 Response(res);
+      else (否)
+        :抛出 ApiException;
+      endif
+    else (否)
+      :抛出 ApiException;
+    endif
+  endif
+endif
+stop
+
+@enduml

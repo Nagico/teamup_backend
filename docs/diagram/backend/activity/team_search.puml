@@ -1,0 +1,31 @@
+@startuml
+
+start
+:获取查询参数 text;
+:获取查询参数 has_teacher;
+if (has_teacher 存在?) then (是)
+  if (has_teacher 等于 "true") then (是)
+    :将 has_teacher 设置为 True;
+  else (否)
+    :将 has_teacher 设置为 False;
+  endif
+endif
+:获取查询参数 activity_ids;
+if (activity_ids 存在且长度大于0) then (是)
+  :将 activity_ids 转换为整数列表;
+else (否)
+  :将 activity_ids 设置为 None;
+endif
+:获取查询参数 role_ids;
+if (role_ids 存在且长度大于0) then (是)
+  :将 role_ids 转换为整数列表;
+else (否)
+  :将 role_ids 设置为 None;
+endif
+:调用 helper.search_with_request 方法，传入相应参数;
+:将 queryset.object_list 过滤为只包含在查询集中的 id;
+:分页查询结果;
+:使用序列化器对分页结果进行序列化;
+:return 分页响应;
+
+@enduml

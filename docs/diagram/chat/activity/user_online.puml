@@ -1,0 +1,44 @@
+@startuml
+
+|StompService|
+start
+:获取client支持的stomp版本;
+:获取server匹配的stomp版本;
+|Jwt|
+:初始化jwtVerifier;
+:解析token;
+if (验证token) then (true)
+  :提取payload;
+  :获取token类型和用户ID;
+else (false)
+  :抛出ValidateError异常;
+  stop
+endif
+|StompService|
+:记录用户ID;
+|UserService|
+:用户上线;
+|UserCacheManager|
+:获取Redis分布式锁;
+:加锁;
+if (获取用户所在服务器) then (true)
+  :抛出StompAuthError异常;
+  stop
+else (false)
+  :设置用户所在服务器;
+endif
+:解锁;
+|StompService|
+:设置用户订阅;
+:监听channel关闭事件;
+:发送连接成功帧;
+|StompMessageService|
+:获取未读消息列表;
+|UserCacheManager|
+:获取用户未接收的消息ID;
+|MessageCacheManager|
+:获取消息缓存;
+|StompService|
+:发送未读消息;
+stop
+@enduml

@@ -1,0 +1,18 @@
+@startuml
+
+start
+:获取请求中的 message_id 参数;
+:将请求中的 limit 参数转换为整数;
+if (message_id 存在?) then (是)
+  :查询具有给定 id 的消息的 create_time;
+  :通过 create_time 将 queryset 过滤为 create_time 小于给定 create_time 的消息;
+  :限制结果集的数量为 limit;
+else (否)
+  :不对 queryset 进行过滤;
+  :限制结果集的数量为 limit;
+endif
+:通过 serializer 序列化 queryset;
+:返回 Response(serializer.data);
+stop
+
+@enduml

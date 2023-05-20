@@ -1,0 +1,18 @@
+@startuml
+
+start
+:定义方法 callback;
+:检查回调请求的签名;
+if (签名检验失败?) then (是)
+  :抛出 ApiException;
+else (否)
+  :获取对象实例;
+  :获取请求中的文件 URL;
+  :提取文件名;
+  :更新实例的文件名、大小和更新时间属性;
+  :保存实例;
+  :返回 Response(FileSerializer(instance).data);
+endif
+stop
+
+@enduml

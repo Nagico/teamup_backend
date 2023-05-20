@@ -1,0 +1,39 @@
+@startuml
+class CompetitionCard {
+    + name: h2
+    + date: p
+    + image: Image
+
+    + navigateToCompetitionDetail()
+}
+
+class MyTabbar {
+    + tabbar: div
+    + tabbarItem: div
+
+    + changeTab()
+}
+
+class TeamCard {
+    + name: h2
+    + image: Image
+    + favoriteButton: Button
+    + tag: TeamTag
+    + leader: TeamLeader
+    + competitionImage: Image
+    + competitionTitle: h3
+    + introduction: p
+
+    +navigateToTeamDetail()
+}
+
+class TeamLeader {
+    + avatar: Image
+    + nickname: h4
+    + academy: h5
+}
+
+class TeamTag {
+    + tag: span
+}
+@enduml
