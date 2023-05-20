@@ -1,6 +1,5 @@
 from files.models import File
 from files.serializers import FileSerializer
-from files.tasks import update_preview_pages
 from files.utils import gen_token, handle_callback
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -32,17 +31,8 @@ class FileViewSet(ModelViewSet):
             return [AllowAny()]
         return super(FileViewSet, self).get_permissions()
 
-    def perform_create(self, serializer):
-        """
-        测试
-
-        自动更新预览页
-        """
-        super().perform_create(serializer)
-        update_preview_pages(serializer.instance.id)
-
     @action(methods=["post"], detail=False)
-    def token(self, request):
+    def tokens(self, request):
         """
         获取OSS直传token
         """
