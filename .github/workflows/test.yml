@@ -71,11 +71,11 @@ jobs:
           fail_ci_if_error: true
       - name: Override Coverage Source Path for Sonar
         run: sed -i 's/\/home\/runner\/work\/teamup_backend\/teamup_backend\//\/github\/workspace\//g' ./coverage.xml
-      - name: SonarQube scan
-        uses: sonarsource/sonarqube-scan-action@master
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+#      - name: SonarQube scan
+#        uses: sonarsource/sonarqube-scan-action@master
+#        env:
+#          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
   build:
     runs-on: ubuntu-latest
