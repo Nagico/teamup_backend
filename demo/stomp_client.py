@@ -19,25 +19,41 @@ union_ids = [
     UUID("e9e5e5e5-5e5e-5e5e-5e5e-5e5e5e5e5e5e"),
 ]
 
-access = ""
 
-
-def get_access_token(union_id: UUID) -> str:
+def get_access_token(union_id: UUID) -> (int, str):
     data = requests.post(
         url="https://api.test.teamup.nagico.cn/auth/zq/unionid/",
         json={"union_id": union_id.hex},
     ).json()["data"]
 
-    return data["access"]
+    return int(data["id"]), data["access"]
 
 
 class STOMP:
+    @staticmethod
+    def connect_debug(user_id: int) -> str:
+        return f"""CONNECT
+accept-version:1.2,1.1,1.0
+heart-beat:0,0
+UserId:{user_id}
+
+\0"""
+
     @staticmethod
     def connect(access_token: str) -> str:
         return f"""CONNECT
 accept-version:1.2,1.1,1.0
 heart-beat:0,0
 Authentication:Bearer {access_token}
+
+\0"""
+
+    @staticmethod
+    def subscribe(topic: str | int) -> str:
+        return f"""SUBSCRIBE
+id:{uuid4()}
+destination:{topic}
+ack:client-individual
 
 \0"""
 
@@ -123,10 +139,11 @@ class StompState:
 
 
 class WS:
-    def __init__(self):
-        # self.url = "ws://localhost:8060/"
-        self.url = "wss://chat.test.teamup.nagico.cn/"
+    def __init__(self, url: str, user_id: int, access: str | None = None):
+        self.url = url
         self.ws = None
+        self.user_id = user_id
+        self.access = access
 
         self.state = 0
         self.close_receipt = random.randint(0, 100000)
@@ -169,7 +186,13 @@ class WS:
         self.send(STOMP.disconnect(self.close_receipt))
 
     def run(self, *args):
-        self.send(STOMP.connect(access))
+        if self.access:
+            self.send(STOMP.connect(access))
+        else:
+            self.send(STOMP.connect_debug(self.user_id))
+
+        self.send(STOMP.subscribe(self.user_id))
+
         self.state = StompState.CONNECTED
         while True:
             msg = []
@@ -217,6 +240,17 @@ class WS:
 
 
 if __name__ == "__main__":
-    user_id = input(f"Choose an user to login [0-{len(union_ids) - 1}]: ")
-    access = get_access_token(union_ids[int(user_id)])
-    WS().start()
+    LOCAL_URL = "ws://localhost:8060/"
+    REMOTE_URL = "wss://chat.test.teamup.nagico.cn/"
+
+    URL = REMOTE_URL
+    DEBUG = True
+
+    if DEBUG:
+        user_id = int(input("Input user id (must exist): "))
+        access = None
+    else:
+        user = input(f"Choose an user to login [0-{len(union_ids) - 1}]: ")
+        user_id, access = get_access_token(union_ids[int(user)])
+
+    WS(URL, user_id, access).start()
