@@ -45,8 +45,8 @@ folder FoundationService {
 }
 
 
-Browser <-[dashed]-> TeamupBackend : https://api.teamup.nagico.cn/
-Browser <-[dashed]-> TeamupChat : wss://chat.teamup.nagico.cn/
+Browser <--> TeamupBackend : https://api.teamup.nagico.cn/
+Browser <--> TeamupChat : wss://chat.teamup.nagico.cn/
 
 OSS -[hidden]- ServerGroup
 
