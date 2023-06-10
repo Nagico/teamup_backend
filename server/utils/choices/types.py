@@ -52,3 +52,5 @@ class MessageType(models.IntegerChoices):
     UNKNOWN = 0, "未知"
     CHAT = 1, "聊天消息"
     READ = 2, "已读回执"
+    IMAGE = 3, "图片消息"
+    TEMPLATE = 4, "模板消息"
